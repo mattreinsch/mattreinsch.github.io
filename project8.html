@@ -1,0 +1,253 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizing Airline Fares: A Data-Driven Approach Using Plotly</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        nav {
+            background-color: #ffffff;
+            color: #333;
+            padding: 10px 20px;
+        }
+
+            nav ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+            }
+
+                nav ul li {
+                    margin-right: 20px;
+                }
+
+                    nav ul li a {
+                        color: #333;
+                        text-decoration: none;
+                        font-size: 18px;
+                    }
+
+                        nav ul li a.bold {
+                            font-weight: bold;
+                            color: #000;
+                        }
+
+                        nav ul li a:hover {
+                            text-decoration: underline;
+                        }
+
+        .content {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border: 0px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+            h1 .icons {
+                margin-left: 15px;
+            }
+
+                h1 .icons a {
+                    color: #333;
+                    margin-right: 10px;
+                    text-decoration: none;
+                    font-size: 24px;
+                }
+
+                    h1 .icons a:hover {
+                        color: #555;
+                    }
+
+        h2 {
+            font-size: 24px;
+            margin-top: 20px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        h3,
+        h4 {
+            font-size: 20px;
+            margin-top: 15px;
+        }
+
+        p {
+            margin: 20px 0;
+        }
+
+        pre,
+        code {
+            background: #f4f4f4;
+            border: 0px solid #ddd;
+            padding: 10px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-x: auto;
+            line-height: 2.0;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px 0;
+        }
+
+        /* Footer styles */
+        footer#footer {
+            background-color: #000;
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            footer#footer .icons {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+            }
+
+                footer#footer .icons li {
+                    margin: 0 10px;
+                }
+
+                footer#footer .icons a {
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 24px;
+                }
+
+                    footer#footer .icons a:hover {
+                        color: #ddd;
+                    }
+
+            footer#footer .menu {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                font-size: 14px;
+                display: flex;
+                align-items: center;
+            }
+
+                footer#footer .menu li {
+                    margin: 0;
+                }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html" class="bold">Home</a></li>
+            <li><a href="gallery.html" class="bold">Gallery</a></li>
+        </ul>
+    </nav>
+
+    <div class="content">
+        <h1>
+            Visualizing Airline Fares Using Plotly
+            <span class="icons">
+                <a href="https://www.python.org" target="_blank" title="Python Website"><i class="fab fa-python"></i></a>
+                <a href="https://github.com" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+            </span>
+        </h1>
+
+        <h2>Introduction</h2>
+        <p>When working with large datasets, visualization plays a crucial role in making sense of the information. In this blog, we’ll dive into a practical example of visualizing airline fares using Python, Plotly, and pandas. We'll walk through a script that takes airline fare data and produces a bar chart that clearly depicts the relationship between different low-fare carriers and their respective fare amounts.</p>
+
+        <h2>The Dataset</h2>
+        <p>Imagine you have a dataset containing airline flight routes in the U.S. from 1993 to 2024. This dataset includes various attributes such as city pairs, the number of passengers, and average fares. Our goal is to create an interactive bar chart to compare fares among different low-cost carriers.</p>
+
+        <p>Here’s a snapshot of what the dataset looks like:</p>
+
+        <pre><code>| tbl  | Year | quarter | citymarketid_1 | citymarketid_2 | city1  | city2  | airportid_1 | airportid_2 | airport_1 | airport_2 | nsmiles | passengers | fare | carrier_lg | large_ms | fare_lg | carrier_low | lf_ms | fare_low |
+|------|------|---------|----------------|----------------|--------|--------|-------------|-------------|-----------|-----------|---------|------------|------|------------|----------|---------|-------------|--------|----------|
+| 1    | 1993 | 1       | 31703          | 31703          | New York | Boston | 12478       | 10821       | JFK       | BOS       | 190     | 5000       | 150  | AA         | 0.8      | 200     | SW          | 0.7    | 120      |</code></pre>
+
+        <p>The columns we’re particularly interested in for this visualization are:</p>
+
+        <ul>
+            <li><strong>carrier_low:</strong> The airline carrier operating low-fare flights.</li>
+            <li><strong>fare_low:</strong> The average fare for these low-cost flights.</li>
+        </ul>
+
+        <h2>Plotly: A Tool for Interactive Visualizations</h2>
+        <p>Plotly is a powerful Python library that enables you to create interactive visualizations with ease. It is particularly useful for exploring and presenting data in a visually appealing manner.</p>
+
+        <p>In our script, we’ll use Plotly Express, a high-level interface for Plotly, which allows for quick and easy generation of a variety of plot types, including bar charts.</p>
+
+        <h2>The Script Breakdown</h2>
+        <p>Below is the Python script that accomplishes the visualization task:</p>
+
+        <pre><code>import pandas as pd
+import plotly.express as px
+
+# Load the dataset
+data = pd.read_csv('airline_data.csv')
+
+# Verify the column names
+print(data.columns)
+
+# Specify the color palette for the plot
+color_palette = ['#FF4500', '#006400']
+
+# Create a bar plot using Plotly
+fig = px.bar(data, x='carrier_low', y='fare_low', color='carrier_low', color_discrete_sequence=color_palette)
+fig.update_layout(title="Carrier vs. Fare", xaxis_title="Carrier", yaxis_title="Fare")
+
+# Display the plot
+fig.show()</code></pre>
+
+        <h2>Step-by-Step Explanation</h2>
+        <p><strong>Importing Libraries:</strong> We begin by importing pandas for data manipulation and plotly.express for creating the bar chart.</p>
+        <p><strong>Loading the Data:</strong> The <code>pd.read_csv('airline_data.csv')</code> function loads the dataset into a DataFrame. Make sure your dataset is in the same directory as your script, or provide the full path to the file.</p>
+        <p><strong>Column Verification:</strong> To ensure that the correct columns are available, we print the DataFrame’s columns using <code>print(data.columns)</code>. This is an essential step to confirm that the column names in the script match those in your dataset.</p>
+        <p><strong>Setting Up Colors:</strong> We define a <code>color_palette</code> that will be used to differentiate between the carriers in the plot. In this example, we use <span style="color:#FF4500;">#FF4500</span> (a shade of orange) and <span style="color:#006400;">#006400</span> (a shade of green).</p>
+        <p><strong>Creating the Bar Plot:</strong> We use <code>px.bar()</code> to create the bar plot. The <code>x</code> parameter corresponds to the carrier names, while the <code>y</code> parameter corresponds to the fare values. The <code>color</code> parameter groups the bars by carrier, and <code>color_discrete_sequence</code> applies the specified colors.</p>
+        <p><strong>Customizing the Plot:</strong> The <code>fig.update_layout()</code> function customizes the plot’s appearance, setting the title and axis labels. This makes the visualization more informative and easier to understand.</p>
+        <p><strong>Displaying the Plot:</strong> Finally, <code>fig.show()</code> renders the plot in your web browser or Jupyter Notebook, depending on your environment.</p>
+
+        <h2>Conclusion</h2>
+        <p>Data visualization is a powerful way to make sense of complex datasets. By using Plotly, we can create interactive visualizations that not only look great but also help us derive valuable insights. The script provided is just one example of how to use Plotly for visualizing airline fare data, and it can be easily adapted for other types of data as well.</p>
+
+        <p>If you have any questions or suggestions, feel free to reach out via GitHub or email. Happy coding!</p>
+    </div>
+
+    <footer id="footer">
+        <ul class="icons">
+            <li><a href="https://www.linkedin.com" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a></li>
+            <li><a href="https://www.github.com" target="_blank" title="GitHub"><i class="fab fa-github"></i></a></li>
+        </ul>
+        <ul class="menu">
+            <li>&copy; 2024 Matt Reinsch. All rights reserved.</li>
+        </ul>
+    </footer>
+</body>
+
+</html>

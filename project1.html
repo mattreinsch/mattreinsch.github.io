@@ -1,0 +1,424 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building a Baseball Simulator in Python</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        nav {
+            background-color: #ffffff; /* White background */
+            color: #333;
+            padding: 10px 20px;
+        }
+
+            nav ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+            }
+
+                nav ul li {
+                    margin-right: 20px;
+                }
+
+                    nav ul li a {
+                        color: #333;
+                        text-decoration: none;
+                        font-size: 18px;
+                    }
+
+                        nav ul li a.bold {
+                            font-weight: bold;
+                            color: #000; /* Black color for bold text */
+                        }
+
+                        nav ul li a:hover {
+                            text-decoration: underline;
+                        }
+
+        .content {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+            h1 .icons {
+                margin-left: 15px;
+            }
+
+                h1 .icons a {
+                    color: #333;
+                    margin-right: 10px;
+                    text-decoration: none;
+                    font-size: 24px;
+                }
+
+                    h1 .icons a:hover {
+                        color: #555;
+                    }
+
+        h2 {
+            font-size: 24px;
+            margin-top: 20px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        h3, h4 {
+            font-size: 20px;
+            margin-top: 15px;
+        }
+
+        p {
+            margin: 20px 0;
+        }
+
+        pre, code {
+            background: #f4f4f4;
+            border: 0px solid #ddd;
+            padding: 10px;
+            white-space: pre-wrap; /* Wrap code lines */
+            word-wrap: break-word; /* Break long words */
+            overflow-x: auto; /* Horizontal scrolling for large code blocks */
+            line-height: 2.0; /* Increase line height */
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px 0;
+        }
+
+        /* Footer styles */
+        footer#footer {
+            background-color: #000; /* Black background */
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            footer#footer .icons {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+            }
+
+                footer#footer .icons li {
+                    margin: 0 10px;
+                }
+
+                footer#footer .icons a {
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 24px;
+                }
+
+                    footer#footer .icons a:hover {
+                        color: #ddd;
+                    }
+
+            footer#footer .menu {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                font-size: 14px;
+                display: flex;
+                align-items: center;
+            }
+
+                footer#footer .menu li {
+                    margin: 0;
+                }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html" class="bold">Home</a></li>
+            <!-- Add other navigation links here if needed -->
+        </ul>
+    </nav>
+
+    <div class="content">
+        <h1>
+            Building a Baseball Simulator in Python
+            <span class="icons">
+                <a href="https://www.python.org" target="_blank" title="Python Website"><i class="fab fa-python"></i></a>
+                <a href="https://github.com/mattreinsch/Baseball-Simulator" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+            </span>
+        </h1>
+        <img src="baseball_sim.jpg" alt="Baseball Simulator">
+
+        <h2>Introduction</h2>
+        <p>Welcome to an exploration of a baseball simulation script written in Python! This script models the outcomes of baseball games using probability distributions for player performance. It comprises classes for players, teams, games, and a simulator to run multiple games. This article will break down the script step-by-step, providing insights into how it works and how you can use it to simulate baseball games.</p>
+
+        <h2>Player Class</h2>
+        <p>The `Player` class represents individual baseball players with distinct probabilities for different outcomes like singles, doubles, walks, and outs.</p>
+        <h4>Initialization</h4>
+        <pre><code>class Player:
+    def __init__(self, probs):
+        self.probs = pd.Series(probs)  # Player probability distribution
+        self.stats = []  # Player at-bat results will be stored here
+</code></pre>
+        <p>
+            <strong>probs</strong>: A dictionary of probabilities for various outcomes (e.g., single, double, etc.).<br>
+            <strong>stats</strong>: A list to store the outcomes of each at-bat.
+        </p>
+
+        <h4>at_bat Method</h4>
+        <p>Simulates a single at-bat by randomly choosing an outcome based on the player's probability distribution and records the outcome.</p>
+        <pre><code>def at_bat(self):
+    outcome = np.random.choice(self.probs.index, p=self.probs.values)
+    self.stats.append(outcome)
+    return outcome
+</code></pre>
+
+        <h4>OBP Method</h4>
+        <p>Calculates On-Base Percentage (OBP), the ratio of times the player gets on base to total at-bats.</p>
+        <pre><code>def OBP(self):
+    nonouts = [ab for ab in self.stats if ab != 'OUT']
+    return 1.0 * len(nonouts) / len(self.stats)
+</code></pre>
+
+        <h4>AVE Method</h4>
+        <p>Calculates Batting Average (AVE), the ratio of hits (excluding walks and outs) to total at-bats.</p>
+        <pre><code>def AVE(self):
+    apps = [ab for ab in self.stats if ab != 'WALK']
+    hits = [ab for ab in apps if ab != 'OUT']
+    return 1.0 * len(hits) / len(apps)
+</code></pre>
+
+        <h4>bases Method</h4>
+        <p>Returns the number of bases for a given hit type.</p>
+        <pre><code>def bases(self, hit_type):
+    if hit_type in ['WALK', '1B']:
+        return 1
+    elif hit_type == '2B':
+        return 2
+    elif hit_type == '3B':
+        return 3
+    elif hit_type == 'HR':
+        return 4
+    else:
+        return 0
+</code></pre>
+
+        <h4>slugging Method</h4>
+        <p>Calculates the slugging percentage, the average number of bases per at-bat.</p>
+        <pre><code>def slugging(self):
+    return sum([self.bases(ab) for ab in self.stats]) / len(self.stats)
+</code></pre>
+
+        <h2>Team Class</h2>
+        <p>The `Team` class represents a baseball team comprising multiple players.</p>
+        <h4>Initialization</h4>
+        <pre><code>class Team:
+    def __init__(self, players):
+        self.players = players
+        self.score = 0
+</code></pre>
+        <p>
+            <strong>players</strong>: A list of Player objects representing the team's roster.<br>
+            <strong>score</strong>: An integer representing the team's score.
+        </p>
+
+        <h4>play_inning Method</h4>
+        <p>Simulates an inning by having each player on the team take a turn at bat.</p>
+        <pre><code>def play_inning(self):
+    inning_score = 0
+    for player in self.players:
+        result = player.at_bat()
+        // Scoring logic based on result
+        if result in ['1B', '2B', '3B', 'HR']:
+            inning_score += 1
+    self.score += inning_score
+</code></pre>
+
+        <h2>Game Class</h2>
+        <p>The `Game` class simulates a baseball game between two teams.</p>
+        <h4>Initialization</h4>
+        <pre><code>class Game:
+    def __init__(self, teams):
+    self.teams = teams
+    self.inning = 1
+    self.outs = 0
+    self.away_or_home = 0
+    self.bases = [0, 0, 0]
+    self.score = [0, 0]
+    self.game_on = True
+    self.current_player = [0, 0]
+</code></pre>
+        <p>
+            <strong>team1</strong>: A Team object representing the first team.<br>
+            <strong>team2</strong>: A Team object representing the second team.<br>
+            <strong>innings</strong>: Number of innings to be played.<br>
+            <strong>team1_score</strong> & <strong>team2_score</strong>: Scores for each team.
+        </p>
+
+        <h4>walker Method</h4>
+        <p>Handles the scenario when a player walks.</p>
+        <pre><code>def walker(self):
+    self.bases.append(0)
+    self.bases[0] += 1
+    for i in range(3):
+        if self.bases[i] == 2:
+            self.bases[i] -= 1
+            self.bases[i + 1] += 1
+    runs = self.bases[-1]
+    self.bases = self.bases[:3]
+    self.score[self.away_or_home] += runs
+</code></pre>
+
+        <h4>hitter Method</h4>
+        <p>Handles the scenario when a player hits.</p>
+        <pre><code>def hitter(self, hit_type):
+    if hit_type == '1B':
+        self.bases = [1, 0] + self.bases
+    elif hit_type == '2B':
+        self.bases = [0, 1] + self.bases
+    elif hit_type == '3B':
+        self.bases = [0, 0, 1] + self.bases
+    elif hit_type == 'HR':
+        self.bases = [0, 0, 0, 1] + self.bases
+    runs = sum(self.bases[3:])
+    self.bases = self.bases[:3]
+    self.score[self.away_or_home] += runs
+</code></pre>
+
+        <h4>handle_at_bat Method</h4>
+        <p>Processes each at-bat, updating outs, score, and base runners.</p>
+        <pre><code>def handle_at_bat(self):
+    player = self.teams[self.away_or_home].players[self.current_player[self.away_or_home]]
+    result = player.at_bat()
+    if result == 'OUT':
+        self.outs += 1
+    elif result == 'BB':
+        self.walker()
+    else:
+        self.hitter(result)
+    if (self.inning >= 9 and ((self.outs >= 3 and self.away_or_home == 0) or self.away_or_home == 1) and self.score[0] < self.score[1]) or (self.inning >= 9 and self.outs >= 3 and self.score[0] > self.score[1]):
+        self.game_on = False
+    if self.outs >= 3:
+        if self.away_or_home == 1:
+            self.inning += 1
+        self.outs = 0
+        self.current_player[self.away_or_home] = (self.current_player[self.away_or_home] + 1) % 9
+        self.away_or_home = (self.away_or_home + 1) % 2
+        self.bases = [0, 0, 0]
+</code></pre>
+
+        <h4>play_game Method</h4>
+        <p>Runs the game until completion, returns the final score and winner, and updates team records.</p>
+        <pre><code>def play_game(self):
+    while self.game_on:
+    self.handle_at_bat()
+    final_score = copy.copy(self.score)
+    winner = 1 if (self.score[0] < self.score[1]) else 0
+    self.teams[0].record[winner] += 1
+    self.teams[1].record[(winner + 1) % 2] += 1
+    self.reset_game()
+    return {
+    "final_score": final_score,
+    "winner": winner
+    }
+
+    def reset_game(self):
+    self.inning = 1
+    self.outs = 0
+    self.away_or_home = 0
+    self.bases = [0, 0, 0]
+    self.score = [0, 0]
+    self.game_on = True
+</code></pre>
+
+        <h2>Simulator Class</h2>
+        <p>The `Simulator` class manages running multiple games and logging results.</p>
+        <h4>Initialization</h4>
+        <pre><code>class Simulator:
+    def __init__(self, teams):
+        self.teams = teams
+</code></pre>
+        <p>
+            <strong>teams</strong>: A list of Team objects representing the teams to be simulated.
+        </p>
+
+        <h4>simulate Method</h4>
+        <p>Runs a specified number of games and logs the results.</p>
+        <pre><code>def simulate(self, its=100):
+    game_log = []
+    wins = 0
+    for i in range(its):
+        game = Game(self.teams)
+        result = game.play_game()
+        wins += result['winner']
+        game_log.append(result)
+    print(f"The home team won {wins} out of {its}, for a winning percentage of {wins / its * 100}%!")
+    return game_log
+</code></pre>
+
+        <h2>Example Usage</h2>
+        <p>Here's how to use the script to simulate 100 games:</p>
+        <pre><code># Define player probabilities
+player_probs = {
+    '1B': 0.2,
+    '2B': 0.1,
+    '3B': 0.05,
+    'HR': 0.1,
+    'WALK': 0.15,
+    'OUT': 0.4
+}
+
+# Create players
+players = [Player(player_probs) for _ in range(9)]
+
+# Create two teams
+team1 = Team(players)
+team2 = Team(players)
+
+# Initialize the simulator with two teams
+simulator = Simulator([team1, team2])
+
+# Run the simulation for 100 games
+simulation_results = simulator.simulate(its=100)
+</code></pre>
+        <p>This script allows you to simulate a series of baseball games, track individual player statistics, and team performance over multiple games. Whether you're a baseball enthusiast or a programmer interested in simulations, this project offers a fascinating way to explore the intricacies of the sport through code.</p>
+    </div>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <ul class="icons">
+            <li><a href="https://www.linkedin.com/in/matt-reinsch-51118781/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a></li>
+            <li><a href="https://github.com/mattreinsch" target="_blank" title="GitHub"><i class="fab fa-github"></i></a></li>
+        </ul>
+        <ul class="menu">
+            <li>&copy; Matt Reinsch</li>
+        </ul>
+    </footer>
+</body>
+</html>

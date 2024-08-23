@@ -1,0 +1,218 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Library Cheat Sheet</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        nav {
+            background-color: #ffffff;
+            color: #333;
+            padding: 10px 20px;
+        }
+
+            nav ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+            }
+
+                nav ul li {
+                    margin-right: 20px;
+                }
+
+                    nav ul li a {
+                        color: #333;
+                        text-decoration: none;
+                        font-size: 18px;
+                    }
+
+                        nav ul li a.bold {
+                            font-weight: bold;
+                            color: #000;
+                        }
+
+                        nav ul li a:hover {
+                            text-decoration: underline;
+                        }
+
+        .tab-container {
+            display: flex;
+            flex-direction: row;
+            background-color: #333;
+            overflow: hidden;
+        }
+
+        .tab {
+            padding: 14px 20px;
+            background-color: #333;
+            color: white;
+            cursor: pointer;
+            flex-grow: 1;
+            text-align: center;
+        }
+
+            .tab:hover {
+                background-color: #575757;
+            }
+
+            .tab.active {
+                background-color: #2196F3;
+            }
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+            background-color: white;
+            margin: 0;
+            border-top: none;
+        }
+
+            .tab-content.active {
+                display: block;
+            }
+
+        iframe {
+            width: 100%;
+            height: 800px;
+            border: none;
+        }
+
+        footer#footer {
+            background-color: #000;
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            footer#footer .icons {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+            }
+
+                footer#footer .icons li {
+                    margin: 0 10px;
+                }
+
+                footer#footer .icons a {
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 24px;
+                }
+
+                    footer#footer .icons a:hover {
+                        color: #ddd;
+                    }
+
+            footer#footer .menu {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                font-size: 14px;
+                display: flex;
+                align-items: center;
+            }
+
+                footer#footer .menu li {
+                    margin: 0;
+                }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html" class="bold">Home</a></li>
+            <li><a href="gallery.html" class="bold">Gallery</a></li>
+        </ul>
+    </nav>
+
+    <div class="tab-container">
+        <div class="tab" onclick="openTab(event, 'Pandas')">Pandas</div>
+        <div class="tab" onclick="openTab(event, 'Scikit')">Scikit-Learn</div>
+        <div class="tab" onclick="openTab(event, 'Matplotlib')">Matplotlib</div>
+        <div class="tab" onclick="openTab(event, 'TensorFlow')">TensorFlow</div>
+        <div class="tab" onclick="openTab(event, 'PyTorch')">PyTorch</div>
+        <div class="tab" onclick="openTab(event, 'SciPy')">SciPy</div>
+        <div class="tab" onclick="openTab(event, 'Numpy')">Numpy</div>
+    </div>
+
+    <div id="Pandas" class="tab-content">
+        <h2>Pandas Cheat Sheet</h2>
+        <iframe src="https://pandas.pydata.org/Pandas_Cheat_Sheet.pdf"></iframe>
+    </div>
+
+    <div id="Scikit" class="tab-content">
+        <h2>Scikit-Learn Cheat Sheet</h2>
+        <iframe src="https://s3.amazonaws.com/assets.datacamp.com/blog_assets/Scikit_Learn_Cheat_Sheet_Python.pdf"></iframe>
+    </div>
+
+    <div id="Matplotlib" class="tab-content">
+        <h2>Matplotlib Cheat Sheet</h2>
+        <iframe src="https://matplotlib.org/cheatsheets/_images/cheatsheets-1.png"></iframe>
+        <iframe src="https://matplotlib.org/cheatsheets/_images/cheatsheets-2.png"></iframe>
+    </div>
+
+    <div id="TensorFlow" class="tab-content">
+        <h2>TensorFlow Cheat Sheet</h2>
+        <iframe src="https://www.beoptimized.be/pdf/TensorFlow2Cheatsheet.pdf"></iframe>
+    </div>
+
+    <div id="PyTorch" class="tab-content">
+        <h2>PyTorch Cheat Sheet</h2>
+        <iframe src="https://www.mad.tf.fau.de/files/2019/07/pytorch-cheatsheet-en.pdf"></iframe>
+    </div>
+
+    <div id="SciPy" class="tab-content">
+        <h2>SciPy Cheat Sheet</h2>
+        <iframe src="https://images.datacamp.com/image/upload/v1676303474/Marketing/Blog/SciPy_Cheat_Sheet.pdf"></iframe>
+    </div>
+
+    <div id="Numpy" class="tab-content">
+        <h2>Numpy Cheat Sheet</h2>
+        <iframe src="https://images.datacamp.com/image/upload/v1676302459/Marketing/Blog/Numpy_Cheat_Sheet.pdf"></iframe>
+
+    </div>
+
+    <footer id="footer">
+        <ul class="icons">
+            <li><a href="https://www.linkedin.com/in/mattreinsch/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a></li>
+            <li><a href="https://github.com/mattreinsch" target="_blank" title="GitHub"><i class="fab fa-github"></i></a></li>
+        </ul>
+        <ul class="menu">
+            <li>&copy; Matt Reinsch</li>
+        </ul>
+    </footer>
+
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tab");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        // Open the first tab by default
+        document.getElementsByClassName("tab")[0].click();
+    </script>
+</body>
+</html>

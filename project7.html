@@ -1,0 +1,304 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulating a Golf Tournament in Python</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        nav {
+            background-color: #ffffff;
+            color: #333;
+            padding: 10px 20px;
+        }
+
+            nav ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+            }
+
+                nav ul li {
+                    margin-right: 20px;
+                }
+
+                    nav ul li a {
+                        color: #333;
+                        text-decoration: none;
+                        font-size: 18px;
+                    }
+
+                        nav ul li a.bold {
+                            font-weight: bold;
+                            color: #000;
+                        }
+
+                        nav ul li a:hover {
+                            text-decoration: underline;
+                        }
+
+        .content {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+            h1 .icons {
+                margin-left: 15px;
+            }
+
+                h1 .icons a {
+                    color: #333;
+                    margin-right: 10px;
+                    text-decoration: none;
+                    font-size: 24px;
+                }
+
+                    h1 .icons a:hover {
+                        color: #555;
+                    }
+
+        h2 {
+            font-size: 24px;
+            margin-top: 20px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        h3, h4 {
+            font-size: 20px;
+            margin-top: 15px;
+        }
+
+        p {
+            margin: 20px 0;
+        }
+
+        pre, code {
+            background: #f4f4f4;
+            border: 0px solid #ddd;
+            padding: 10px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-x: auto;
+            line-height: 2.0;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px 0;
+        }
+
+        /* Footer styles */
+        footer#footer {
+            background-color: #000;
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            footer#footer .icons {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+            }
+
+                footer#footer .icons li {
+                    margin: 0 10px;
+                }
+
+                footer#footer .icons a {
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 24px;
+                }
+
+                    footer#footer .icons a:hover {
+                        color: #ddd;
+                    }
+
+            footer#footer .menu {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                font-size: 14px;
+                display: flex;
+                align-items: center;
+            }
+
+                footer#footer .menu li {
+                    margin: 0;
+                }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html" class="bold">Home</a></li>
+            <li><a href="gallery.html" class="bold">Gallery</a></li>
+        </ul>
+    </nav>
+
+    <div class="content">
+        <h1>
+            Simulating a Golf Tournament in Python
+            <span class="icons">
+                <a href="https://www.python.org" target="_blank" title="Python Website"><i class="fab fa-python"></i></a>
+                <a href="https://github.com" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+            </span>
+        </h1>
+
+        <h2>Introduction</h2>
+        <p>Golf tournaments are a blend of skill, strategy, and a touch of luck. With a wealth of data available, we can harness this information to simulate tournaments and estimate each player's chance of winning. In this post, we'll walk through a Python script that does just that, using course statistics and player skills.</p>
+
+        <h2>The Game Plan</h2>
+        <p>1. <strong>Course Statistics</strong>: Create a probability distribution for each hole (e.g., chances of birdie, par, bogey, etc.).</p>
+        <p>2. <strong>Player Statistics</strong>: Use the Strokes Gained Total (SGT) to adjust the probabilities for each player based on their skill level.</p>
+        <p>3. <strong>Simulation Functions</strong>: Generate random outcomes for each hole, simulate rounds for players, and determine the winner.</p>
+        <p>4. <strong>Run Simulations</strong>: Simulate the tournament multiple times to estimate each player's chances of winning.</p>
+
+        <h2>Course Statistics</h2>
+        <pre><code>
+    hole_probs = {
+    1: {"-2": 0, "-1": 0.21, "0": 0.67, "1": 0.12, "2": 0},
+    2: {"-2": 0, "-1": 0.23, "0": 0.70, "1": 0.07, "2": 0},
+    3: {"-2": 0, "-1": 0.21, "0": 0.67, "1": 0.12, "2": 0},
+    4: {"-2": 0, "-1": 0.149, "0": 0.759, "1": 0.089, "2": 0.003},
+    5: {"-2": 0.01, "-1": 0.375, "0": 0.425, "1": 0.145, "2": 0.045},
+    6: {"-2": 0, "-1": 0.05, "0": 0.70, "1": 0.20, "2": 0.05},
+    7: {"-2": 0, "-1": 0.24, "0": 0.64, "1": 0.07, "2": 0.05},
+    8: {"-2": 0.0075, "-1": 0.4575, "0": 0.4875, "1": 0.0475, "2": 0},
+    9: {"-2": 0, "-1": 0.20, "0": 0.62, "1": 0.14, "2": 0.04},
+    10: {"-2": 0, "-1": 0.21, "0": 0.69, "1": 0.08, "2": 0.02},
+    11: {"-2": 0.01, "-1": 0.3275, "0": 0.5775, "1": 0.0675, "2": 0.0175},
+    12: {"-2": 0, "-1": 0.2875, "0": 0.6075, "1": 0.0975, "2": 0.0075},
+    13: {"-2": 0, "-1": 0.10, "0": 0.71, "1": 0.15, "2": 0.04},
+    14: {"-2": 0, "-1": 0.2575, "0": 0.6675, "1": 0.0575, "2": 0.0175},
+    15: {"-2": 0, "-1": 0.0925, "0": 0.8025, "1": 0.1025, "2": 0.0025},
+    16: {"-2": 0.01, "-1": 0.395, "0": 0.525, "1": 0.065, "2": 0.005},
+    17: {"-2": 0.00, "-1": 0.1125, "0": 0.7025, "1": 0.0825, "2": 0.1025},
+    18: {"-2": 0, "-1": 0.1425, "0": 0.6825, "1": 0.1325, "2": 0.0425}
+    }
+</code></pre>
+
+        <h2>Player Statistics</h2>
+        <p>Next, we adjust these probabilities based on each player's SGT, which indicates how many strokes better (or worse) they are compared to the average player:</p>
+        <pre><code>
+    player_adjustments = {
+    "Max Homa": 0.279,
+    "Si Woo Kim": 0.267,
+    "Tony Finau": 1.243,
+    "Richy Werenski": 0.484,
+    "Russell Knox": 0.030,
+    "Brian Harman": 0.767,
+    "Emiliano Grillo": -0.182,
+    "Cameron Davis": 0.560,
+    "Rory Sabbatini": 0.071,
+    "Chase Seiffert": 0.196,
+    "Francesco Molinari": 0.038,
+    "Doug Ghim": -0.520
+    }
+</code></pre>
+
+        <h2>Transforming Probabilities</h2>
+        <p>We transform the hole probabilities into cumulative distributions for easier random sampling:</p>
+        <pre><code>def transform_hole_probs(hole_probs):
+    transformed = {}
+    for hole, dist in hole_probs.items():
+        keys = sorted(dist.keys(), key=lambda x: int(x))
+        cumulative = []
+        cum_sum = 0
+        for key in keys:
+            cum_sum += dist[key]
+            cumulative.append(cum_sum)
+        transformed[hole] = cumulative
+    return transformed
+
+hole_probs = transform_hole_probs(hole_probs)</code></pre>
+
+        <h2>Simulating Holes</h2>
+        <p>We create a function to generate random hole scores based on these cumulative distributions:</p>
+        <pre><code>def random_hole_score(hole_dist):
+    rand_num = random.random()
+    for i, cum_prob in enumerate(hole_dist):
+        if rand_num < cum_prob:
+            return i - 2
+    return 2</code></pre>
+
+        <h2>Simulating Rounds</h2>
+        <p>We simulate a player's round by adjusting the hole probabilities based on their SGT:</p>
+        <pre><code>def player_round(player, course_probs):
+    score = 0
+    adj = player_adjustments[player] / 18 / 2
+    for hole, dist in course_probs.items():
+        adjusted_dist = deepcopy(dist)
+        adjusted_dist[1] += adj
+        adjusted_dist[2] -= adj
+        score += random_hole_score(adjusted_dist)
+    return score</code></pre>
+
+        <h2>Running the Tournament</h2>
+        <p>We run the simulation for all players and determine the winner:</p>
+        <pre><code>def simulate_round(players, course_probs):
+    scores = {player: player_round(player, course_probs) for player in players}
+    best_score = min(scores.values())
+    winners = [player for player, score in scores.items() if score == best_score]
+    return winners</code></pre>
+
+        <h2>Estimating Win Probabilities</h2>
+        <p>Finally, we simulate the tournament multiple times to estimate each player's chances of winning:</p>
+        <pre><code>def win_prob_simulator(players, course_probs, n=1000):
+    win_counts = {player: 0 for player in players}
+    for _ in range(n):
+        winners = simulate_round(players, course_probs)
+        for winner in winners:
+            win_counts[winner] += 1 / len(winners)
+    return {player: wins / n for player, wins in win_counts.items()}</code></pre>
+
+        <h2>Results</h2>
+        <p>Let's run the simulation and see the results for our players:</p>
+        <pre><code>players = list(player_adjustments.keys())
+win_probs = win_prob_simulator(players, hole_probs, n=1000)
+print(win_probs)</code></pre>
+
+        <h2>Conclusion</h2>
+        <p>By simulating a golf tournament using Python, we can gain insights into player performance and tournament outcomes. This approach can be extended with more sophisticated models and additional data for more accurate predictions.</p>
+    </div>
+
+    <footer id="footer">
+        <ul class="icons">
+            <li><a href="https://www.linkedin.com/in/mattreinsch/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a></li>
+            <li><a href="https://github.com/mattreinsch" target="_blank" title="GitHub"><i class="fab fa-github"></i></a></li>
+        </ul>
+        <ul class="menu">
+            <li>&copy; Matt Reinsch</li>
+        </ul>
+    </footer>
+</body>
+</html>

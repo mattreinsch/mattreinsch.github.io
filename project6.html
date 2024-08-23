@@ -1,0 +1,406 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Churn Model Analysis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        nav {
+            background-color: #ffffff;
+            color: #333;
+            padding: 10px 20px;
+        }
+
+            nav ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+            }
+
+                nav ul li {
+                    margin-right: 20px;
+                }
+
+                    nav ul li a {
+                        color: #333;
+                        text-decoration: none;
+                        font-size: 18px;
+                    }
+
+                        nav ul li a.bold {
+                            font-weight: bold;
+                            color: #000;
+                        }
+
+                        nav ul li a:hover {
+                            text-decoration: underline;
+                        }
+
+        .content {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+            h1 .icons {
+                margin-left: 15px;
+            }
+
+                h1 .icons a {
+                    color: #333;
+                    margin-right: 10px;
+                    text-decoration: none;
+                    font-size: 24px;
+                }
+
+                    h1 .icons a:hover {
+                        color: #555;
+                    }
+
+        h2 {
+            font-size: 24px;
+            margin-top: 20px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        h3, h4 {
+            font-size: 20px;
+            margin-top: 15px;
+        }
+
+        p {
+            margin: 20px 0;
+        }
+
+        pre, code {
+            background: #f4f4f4;
+            border: 0px solid #ddd;
+            padding: 10px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-x: auto;
+            line-height: 2.0;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px 0;
+        }
+
+        /* Footer styles */
+        footer#footer {
+            background-color: #000;
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            footer#footer .icons {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+            }
+
+                footer#footer .icons li {
+                    margin: 0 10px;
+                }
+
+                footer#footer .icons a {
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 24px;
+                }
+
+                    footer#footer .icons a:hover {
+                        color: #ddd;
+                    }
+
+            footer#footer .menu {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                font-size: 14px;
+                display: flex;
+                align-items: center;
+            }
+
+                footer#footer .menu li {
+                    margin: 0;
+                }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html" class="bold">Home</a></li>
+            <li><a href="gallery.html" class="bold">Gallery</a></li>
+        </ul>
+    </nav>
+
+    <div class="content">
+        <h1>Employee Churn Model Analysis</h1>
+
+        <h2>1. Introduction</h2>
+        <p>
+            Employee turnover is more than just a statistic—it reflects the pulse of an organization. When valued employees leave, the impact ripples across teams, affecting morale, productivity, and ultimately, the company's bottom line. Understanding the reasons behind employee attrition is crucial for sustaining growth and fostering a positive work environment. This analysis aims to predict the likelihood of employee churn and identify the key factors contributing to employee attrition. By leveraging machine learning models, we aim to provide insights that empower the HR department to preemptively address churn, retain talent, reduce costs, and maintain operational efficiency.
+        </p>
+
+        <h2>2. Data Exploration and Preparation</h2>
+
+        <h3>2.1 Data Description and Exploratory Visualizations</h3>
+
+        <h4>2.1.1 Overview</h4>
+        <p>
+            The dataset serves as a mirror reflecting various facets of the employee experience, from their demographic background to their journey within the organization. It contains both numerical and categorical features, providing comprehensive information about employees, such as demographics, job roles, satisfaction levels, and performance metrics. By dissecting these features, we gain a deeper understanding of the factors that might influence an employee's decision to stay or leave. Each data point tells a story—whether it's the age distribution revealing generational trends or job roles indicating potential dissatisfaction.
+        </p>
+
+        <div class="code-block">
+            <pre><code>
+    # Read Excel file
+    df_sourcefile = pd.read_excel(
+    'WA_Fn-UseC_-HR-Employee-Attrition.xlsx', sheet_name=0)
+    print("Shape of dataframe is: {}".format(df_sourcefile.shape))
+    df_HR = df_sourcefile.copy()
+
+    # Display column names
+    print(df_HR.columns)
+
+    # Display first few rows
+    df_HR.head()
+
+    # Group columns by data type
+    df_HR.columns.to_series().groupby(df_HR.dtypes).groups
+
+    # Check for missing values and data types
+    df_HR.info()
+</code></pre>
+        </div>
+
+        <h4>2.1.2 Numerical Features Overview</h4>
+        <p>
+            Numerical features such as age, income, and tenure at the company are more than just numbers; they provide a glimpse into the career trajectory of employees. Descriptive statistics and histograms were used to analyze numerical features like Age, MonthlyIncome, and YearsAtCompany. This helped us understand the central tendencies, distributions, and potential outliers in the data. For instance, an employee with a high monthly income but low job satisfaction might be more prone to explore other opportunities. Understanding these dynamics helps us identify early warning signs of potential churn.
+        </p>
+
+        <div class="code-block">
+            <pre><code># Summary statistics for numerical columns
+df_HR.describe()</code></pre>
+        </div>
+
+        <h3>2.2 Feature Distribution by Target Attribute</h3>
+        <p>
+            By examining how different features correlate with attrition, we uncover the hidden narratives within the data. We explored the distribution of various features based on the target attribute (Attrition) to identify trends and patterns indicative of employee churn. For example, age distribution might reveal that younger employees are more likely to leave in search of better opportunities, or that a certain job role has a higher churn rate, signaling potential issues within that department.
+        </p>
+
+        <div class="code-block">
+            <pre><code># Age Distribution by Attrition
+sns.histplot(data=df_HR, x='Age', hue='Attrition', multiple='stack', kde=True)
+plt.title('Age Distribution by Attrition')
+plt.show()
+
+# Education Distribution by Attrition
+sns.countplot(data=df_HR, x='Education', hue='Attrition')
+plt.title('Education Distribution by Attrition')
+plt.show()
+
+# Gender Distribution by Attrition
+sns.countplot(data=df_HR, x='Gender', hue='Attrition')
+plt.title('Gender Distribution by Attrition')
+plt.show()</code></pre>
+        </div>
+
+        <h3>2.3 Target Variable: Attrition</h3>
+        <p>
+            Attrition isn’t just a binary outcome; it’s the culmination of numerous factors that ultimately influence an employee’s decision to leave. Understanding the distribution of this variable helps us better gauge the overall health of the organization and identify specific areas that require intervention.
+        </p>
+
+        <div class="code-block">
+            <pre><code># Plot Attrition distribution
+sns.countplot(data=df_HR, x='Attrition')
+plt.title('Attrition Distribution')
+plt.show()</code></pre>
+        </div>
+
+        <h3>2.4 Correlation</h3>
+        <p>
+            The correlation matrix serves as a roadmap, guiding us through the complex web of relationships between different features. A correlation matrix was generated to identify the relationships between different features and the target variable. For example, a strong negative correlation between job satisfaction and attrition might suggest that improving employee engagement could be a key lever in reducing turnover. This insight is crucial for HR teams aiming to implement targeted retention strategies.
+        </p>
+
+        <div class="code-block">
+            <pre><code># Compute correlation matrix
+corr_matrix = df_HR.corr()
+
+# Plot heatmap of correlation matrix
+plt.figure(figsize=(12, 8))
+sns.heatmap(corr_matrix, annot=True, fmt=".2f", cmap='coolwarm')
+plt.title('Correlation Matrix')
+plt.show()</code></pre>
+        </div>
+
+        <h3>2.5 EDA Concluding Remarks</h3>
+        <p>
+            Our exploratory analysis not only provided clarity on the dataset but also illuminated the pathways leading to employee attrition. The patterns and trends we uncovered lay the groundwork for building predictive models that can help HR teams anticipate and mitigate churn. The exploratory data analysis (EDA) provided a comprehensive understanding of the dataset and highlighted key factors contributing to employee churn. It also identified potential challenges, such as multicollinearity and imbalanced data, which may require further exploration, ultimately fostering a more stable and engaged workforce.
+        </p>
+
+        <h2>3. Pre-processing Pipeline</h2>
+
+        <h3>3.1 Encoding</h3>
+        <p>
+            Transforming categorical variables into numerical formats is akin to translating a complex language into one that our machine learning models can understand. Categorical variables were encoded using One-Hot Encoding to convert them into a numerical format suitable for machine learning algorithms. This step ensures that every aspect of the employee experience, from job roles to departments, is accurately represented in our models.
+        </p>
+
+        <div class="code-block">
+            <pre><code># One-Hot Encoding for categorical variables
+df_encoded = pd.get_dummies(df_HR, drop_first=True)
+df_encoded.head()</code></pre>
+        </div>
+
+        <h3>3.2 Feature Scaling</h3>
+        <p>
+            Feature scaling ensures that all variables contribute equally to the model, preventing any single feature from disproportionately influencing the predictions. Features were standardized using StandardScaler to ensure they were on the same scale, improving the performance of distance-based algorithms. This step is critical in creating a balanced and fair analysis that reflects the true drivers of employee churn.
+        </p>
+
+        <div class="code-block">
+            <pre><code>from sklearn.preprocessing import StandardScaler
+
+# Separating features and target variable
+X = df_encoded.drop('Attrition_Yes', axis=1)  # 'Attrition_Yes' is our target variable
+y = df_encoded['Attrition_Yes']
+
+# Standardizing the features
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+# Convert the scaled features back to a DataFrame for easier understanding
+X_scaled_df = pd.DataFrame(X_scaled, columns=X.columns)
+X_scaled_df.head()</code></pre>
+        </div>
+
+        <h2>4. Building Machine Learning Models</h2>
+
+        <h3>4.1 Baseline Algorithms</h3>
+
+        <h4>4.1.1 Logistic Regression</h4>
+        <p>
+            Logistic regression provides a straightforward yet powerful baseline, offering a clear lens through which we can view the probability of churn. This model serves as our initial step in understanding the factors at play, providing a foundation upon which more complex models can be built.
+        </p>
+
+        <div class="code-block">
+            <pre><code>from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+
+# Splitting the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42)
+
+# Logistic Regression model
+log_reg = LogisticRegression(random_state=42)
+log_reg.fit(X_train, y_train)
+
+# Predictions and evaluation
+y_pred_log_reg = log_reg.predict(X_test)
+print("Logistic Regression Accuracy:", accuracy_score(y_test, y_pred_log_reg))
+print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred_log_reg))
+print("Classification Report:\n", classification_report(y_test, y_pred_log_reg))</code></pre>
+        </div>
+
+        <h4>4.1.2 Random Forest Classifier</h4>
+        <p>
+            Enter the Random Forest—a more sophisticated approach that examines the problem from multiple angles, offering a robust solution to the complex challenge of predicting churn. This model builds on the insights gained from logistic regression, providing a more nuanced and accurate prediction of employee behavior.
+        </p>
+
+        <div class="code-block">
+            <pre><code>from sklearn.ensemble import RandomForestClassifier
+
+# Random Forest model
+rf_clf = RandomForestClassifier(random_state=42)
+rf_clf.fit(X_train, y_train)
+
+# Predictions and evaluation
+y_pred_rf = rf_clf.predict(X_test)
+print("Random Forest Accuracy:", accuracy_score(y_test, y_pred_rf))
+print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred_rf))
+print("Classification Report:\n", classification_report(y_test, y_pred_rf))</code></pre>
+        </div>
+
+        <h3>4.2 ROC Graphs</h3>
+        <p>
+            The ROC curve is more than just a metric—it's a visual representation of our model's ability to distinguish between employees who will stay and those who will leave. By comparing the ROC curves of both models, we can clearly see the superior performance of the Random Forest model, which shows a higher AUC and, thus, better overall predictive power.
+        </p>
+
+        <div class="code-block">
+            <pre><code>from sklearn.metrics import roc_curve, auc
+
+# Logistic Regression ROC
+fpr_log, tpr_log, _ = roc_curve(y_test, y_pred_log_reg)
+roc_auc_log = auc(fpr_log, tpr_log)
+
+# Random Forest ROC
+fpr_rf, tpr_rf, _ = roc_curve(y_test, y_pred_rf)
+roc_auc_rf = auc(fpr_rf, tpr_rf)
+
+# Plotting the ROC curves
+plt.figure(figsize=(10, 6))
+plt.plot(fpr_log, tpr_log, label='Logistic Regression (AUC = %0.2f)' % roc_auc_log)
+plt.plot(fpr_rf, tpr_rf, label='Random Forest (AUC = %0.2f)' % roc_auc_rf)
+plt.plot([0, 1], [0, 1], 'k--')
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('ROC Curves')
+plt.legend(loc="lower right")
+plt.show()</code></pre>
+        </div>
+
+        <h2>5. Concluding Remarks</h2>
+
+        <h3>5.1 Model Performance</h3>
+        <p>
+            Our analysis confirms that the Random Forest model is a powerful ally in the fight against employee churn. Its ability to accurately predict attrition allows HR teams to focus their efforts where it matters most, deploying targeted interventions to retain top talent and reduce turnover costs.
+        </p>
+
+        <h3>5.2 Strategic Retention Plan</h3>
+        <p>
+            The insights gleaned from this analysis pave the way for a strategic retention plan that addresses the root causes of employee churn. By investing in development opportunities, fostering work-life balance, and ensuring competitive compensation, organizations can create an environment where employees feel valued, engaged, and committed to their roles. This proactive approach not only reduces turnover but also enhances overall organizational resilience and success.
+        </p>
+    </div>
+
+    <footer id="footer">
+        <ul class="icons">
+            <li><a href="https://www.linkedin.com/in/mattreinsch/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a></li>
+            <li><a href="https://github.com/mattreinsch" target="_blank" title="GitHub"><i class="fab fa-github"></i></a></li>
+        </ul>
+        <ul class="menu">
+            <li>&copy; Matt Reinsch</li>
+        </ul>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,309 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Delay Prediction Using PySpark</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        nav {
+            background-color: #ffffff;
+            color: #333;
+            padding: 10px 20px;
+        }
+
+            nav ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+            }
+
+                nav ul li {
+                    margin-right: 20px;
+                }
+
+                    nav ul li a {
+                        color: #333;
+                        text-decoration: none;
+                        font-size: 18px;
+                    }
+
+                        nav ul li a.bold {
+                            font-weight: bold;
+                            color: #000;
+                        }
+
+                        nav ul li a:hover {
+                            text-decoration: underline;
+                        }
+
+        .content {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+            h1 .icons {
+                margin-left: 15px;
+            }
+
+                h1 .icons a {
+                    color: #333;
+                    margin-right: 10px;
+                    text-decoration: none;
+                    font-size: 24px;
+                }
+
+                    h1 .icons a:hover {
+                        color: #555;
+                    }
+
+        h2 {
+            font-size: 24px;
+            margin-top: 20px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        h3, h4 {
+            font-size: 20px;
+            margin-top: 15px;
+        }
+
+        p {
+            margin: 20px 0;
+        }
+
+        pre, code {
+            background: #f4f4f4;
+            border: 0px solid #ddd;
+            padding: 10px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-x: auto;
+            line-height: 2.0;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px 0;
+        }
+
+        /* Footer styles */
+        footer#footer {
+            background-color: #000;
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            footer#footer .icons {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+            }
+
+                footer#footer .icons li {
+                    margin: 0 10px;
+                }
+
+                footer#footer .icons a {
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 24px;
+                }
+
+                    footer#footer .icons a:hover {
+                        color: #ddd;
+                    }
+
+            footer#footer .menu {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                font-size: 14px;
+                display: flex;
+                align-items: center;
+            }
+
+                footer#footer .menu li {
+                    margin: 0;
+                }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html" class="bold">Home</a></li>
+            <li><a href="gallery.html" class="bold">Gallery</a></li>
+        </ul>
+    </nav>
+
+    <div class="content">
+        <h1>
+            Flight Delay Prediction Using PySpark
+            <span class="icons">
+                <a href="https://www.python.org" target="_blank" title="Python Website"><i class="fab fa-python"></i></a>
+                <a href="https://github.com" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+            </span>
+        </h1>
+
+        <p>This example demonstrates how to use PySpark to load a large dataset, perform statistical analysis, and build a predictive model to predict flight delays.</p>
+
+        <h2>1. Setting Up the Environment</h2>
+        <div class="code-section">
+            <pre><code># Import necessary libraries
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import col, when
+from pyspark.ml.feature import StringIndexer, VectorAssembler
+from pyspark.ml.classification import LogisticRegression
+from pyspark.ml.evaluation import BinaryClassificationEvaluator
+from pyspark.ml.tuning import CrossValidator, ParamGridBuilder
+
+# Initialize Spark Session
+spark = SparkSession.builder.appName("Flight Delay Prediction").getOrCreate()</code></pre>
+        </div>
+
+        <h2>2. Loading a Large Dataset</h2>
+        <div class="code-section">
+            <pre><code># Load a large dataset of flight information (Example: 'flights.csv')
+file_path = "hdfs:///path/to/large/flights.csv"
+flights_df = spark.read.csv(file_path, header=True, inferSchema=True)
+
+# Show the schema
+flights_df.printSchema()
+
+# Show a sample of the dataset
+flights_df.show(5)</code></pre>
+        </div>
+
+        <h2>3. Statistical Analysis</h2>
+        <div class="code-section">
+            <pre><code># Summary statistics for numerical columns
+flights_df.describe().show()
+
+# Count the number of flights with delays
+delay_counts = flights_df.groupBy("DEP_DELAY").count().orderBy(col("DEP_DELAY").desc())
+delay_counts.show()
+
+# Calculate the correlation between delay and other numerical columns
+correlation = flights_df.stat.corr("DEP_DELAY", "ARR_DELAY")
+print(f"Correlation between Departure Delay and Arrival Delay: {correlation}")</code></pre>
+        </div>
+
+        <h2>4. Data Preprocessing</h2>
+        <div class="code-section">
+            <pre><code># Handle missing values
+flights_df = flights_df.na.drop()
+
+# Convert categorical variables to numerical ones using StringIndexer
+indexer = StringIndexer(inputCol="ORIGIN", outputCol="ORIGIN_Index")
+flights_df = indexer.fit(flights_df).transform(flights_df)
+
+indexer = StringIndexer(inputCol="DEST", outputCol="DEST_Index")
+flights_df = indexer.fit(flights_df).transform(flights_df)
+
+# Create a label column (1 if delay > 15 minutes, otherwise 0)
+flights_df = flights_df.withColumn("label", when(col("DEP_DELAY") > 15, 1).otherwise(0))
+
+# Select features and assemble them into a feature vector
+feature_columns = ["MONTH", "DAY_OF_MONTH", "DAY_OF_WEEK", "CRS_DEP_TIME", 
+                   "CRS_ARR_TIME", "ORIGIN_Index", "DEST_Index", "DISTANCE"]
+
+assembler = VectorAssembler(inputCols=feature_columns, outputCol="features")
+flights_df = assembler.transform(flights_df)
+
+# Select relevant columns
+model_df = flights_df.select("features", "label")</code></pre>
+        </div>
+
+        <h2>5. Building a Predictive Model</h2>
+        <div class="code-section">
+            <pre><code># Split data into training and test sets
+train_data, test_data = model_df.randomSplit([0.7, 0.3], seed=42)
+
+# Initialize a logistic regression model
+lr = LogisticRegression(maxIter=10)
+
+# Build a parameter grid for cross-validation
+paramGrid = ParamGridBuilder().addGrid(lr.regParam, [0.1, 0.01]).build()
+
+# Define the evaluator for binary classification
+evaluator = BinaryClassificationEvaluator()
+
+# Set up CrossValidator
+crossval = CrossValidator(estimator=lr, estimatorParamMaps=paramGrid, 
+                          evaluator=evaluator, numFolds=5)
+
+# Train the model
+cv_model = crossval.fit(train_data)
+
+# Make predictions on the test data
+predictions = cv_model.transform(test_data)
+
+# Evaluate the model
+accuracy = evaluator.evaluate(predictions)
+print(f"Model Accuracy: {accuracy}")</code></pre>
+        </div>
+
+        <h2>6. Model Evaluation and Interpretation</h2>
+        <div class="code-section">
+            <pre><code># Show a sample of the predictions
+predictions.select("features", "label", "prediction", "probability").show(5)
+
+# Calculate more evaluation metrics if needed
+true_positive = predictions.filter((col("label") == 1) & (col("prediction") == 1)).count()
+true_negative = predictions.filter((col("label") == 0) & (col("prediction") == 0)).count()
+false_positive = predictions.filter((col("label") == 0) & (col("prediction") == 1)).count()
+false_negative = predictions.filter((col("label") == 1) & (col("prediction") == 0)).count()
+
+precision = true_positive / (true_positive + false_positive)
+recall = true_positive / (true_positive + false_negative)
+f1_score = 2 * (precision * recall) / (precision + recall)
+
+print(f"Precision: {precision}")
+print(f"Recall: {recall}")
+print(f"F1 Score: {f1_score}")</code></pre>
+        </div>
+
+        <h2>Summary</h2>
+        <p>In this example, we used PySpark to load a large dataset, perform a statistical analysis, and build a predictive model for flight delays. This workflow provides a solid foundation for working with big data and machine learning using PySpark.</p>
+    </div>
+
+    <footer id="footer">
+        <ul class="icons">
+            <li><a href="https://www.linkedin.com/in/matt-reinsch-51118781/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a></li>
+            <li><a href="https://github.com/mattreinsch" target="_blank" title="GitHub"><i class="fab fa-github"></i></a></li>
+        </ul>
+        <ul class="menu">
+            <li>&copy; Matt Reinsch</li>
+        </ul>
+    </footer>
+</body>
+</html>

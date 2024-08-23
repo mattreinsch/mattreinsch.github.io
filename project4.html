@@ -1,0 +1,456 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predicting NCAA Champions: Model Insights</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        nav {
+            background-color: #ffffff; /* White background */
+            color: #333;
+            padding: 10px 20px;
+        }
+
+            nav ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+            }
+
+                nav ul li {
+                    margin-right: 20px;
+                }
+
+                    nav ul li a {
+                        color: #333;
+                        text-decoration: none;
+                        font-size: 18px;
+                    }
+
+                        nav ul li a.bold {
+                            font-weight: bold;
+                            color: #000; /* Black color for bold text */
+                        }
+
+                        nav ul li a:hover {
+                            text-decoration: underline;
+                        }
+
+        .content {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+            h1 .icons {
+                margin-left: 15px;
+            }
+
+                h1 .icons a {
+                    color: #333;
+                    margin-right: 10px;
+                    text-decoration: none;
+                    font-size: 24px;
+                }
+
+                    h1 .icons a:hover {
+                        color: #555;
+                    }
+
+        h2 {
+            font-size: 24px;
+            margin-top: 20px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        h3, h4 {
+            font-size: 20px;
+            margin-top: 15px;
+        }
+
+        p {
+            margin: 20px 0;
+        }
+
+        pre, code {
+            background: #f4f4f4;
+            border: 0px solid #ddd;
+            padding: 10px;
+            white-space: pre-wrap; /* Wrap code lines */
+            word-wrap: break-word; /* Break long words */
+            overflow-x: auto; /* Horizontal scrolling for large code blocks */
+            line-height: 2.0; /* Increase line height */
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px 0;
+        }
+
+        /* Footer styles */
+        footer#footer {
+            background-color: #000; /* Black background */
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            footer#footer .icons {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+            }
+
+                footer#footer .icons li {
+                    margin: 0 10px;
+                }
+
+                footer#footer .icons a {
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 24px;
+                }
+
+                    footer#footer .icons a:hover {
+                        color: #ddd;
+                    }
+
+            footer#footer .menu {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                font-size: 14px;
+                display: flex;
+                align-items: center;
+            }
+
+                footer#footer .menu li {
+                    margin: 0;
+                }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html" class="bold">Home</a></li>
+            <!-- Add other navigation links here if needed -->
+        </ul>
+    </nav>
+
+    <div class="content">
+        <h1>
+            Predicting NCAA Champions: Model Insights
+            <span class="icons">
+                <a href="https://www.python.org" target="_blank" title="Python Website"><i class="fab fa-python"></i></a>
+                <a href="https://github.com/mattreinsch/NCAA-Champion-Prediction" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+            </span>
+        </h1>
+        <img src="bball.jpg" alt="Predicting NCAA Champions: Model Insights">
+
+        <h2>Introduction</h2>
+        <p>In this blog post, we delve into the process and results of predicting NCAA champions using a machine learning model. We'll cover data preparation, model training, and performance evaluation, including visualizations of key metrics.</p>
+
+        <h2>Data Preparation</h2>
+        <p>First, we loaded the dataset and prepared the data by selecting relevant columns and handling missing values. We also generated random scores for the teams to simulate game outcomes and added a column indicating which team won each game.</p>
+
+        <pre><code>import pandas as pd
+import numpy as np
+
+# Load data
+df = pd.read_csv("NCAA Champion RawData.csv")
+
+# Data preparation
+data_columns = [ ... ]  # List of relevant columns
+df = df.dropna(subset=data_columns)
+data = df[data_columns].copy()
+
+# Randomly generate Score_Team1 and Score_Team2 columns
+np.random.seed(42)
+df['Score_Team1'] = np.random.randint(20, 121, df.shape[0])
+df['Score_Team2'] = np.random.randint(20, 121, df.shape[0])
+
+# Add a column indicating which team won each game
+df['W'] = (df['Score_Team1'] > df['Score_Team2']).astype(int)</code></pre>
+
+        <h2>Correlation Analysis</h2>
+        <p>We performed a correlation analysis to identify features that are highly correlated with the target variable, champion share.</p>
+
+        <pre><code>correlations = df[data_columns].corrwith(df['champion share']).sort_values(ascending=False)
+plt.figure(figsize=(35, 6))
+correlations.plot(kind='bar')
+plt.title("Pearson Correlation Coefficients with 'champion share'")
+plt.xlabel("Features")
+plt.ylabel("Pearson Correlation Coefficient")
+plt.xticks(rotation=45, ha='right')
+plt.tight_layout()
+plt.show()</code></pre>
+
+        <h2>Feature Selection</h2>
+        <p>To avoid multicollinearity, we selected features based on a correlation threshold and removed highly correlated features.</p>
+
+        <pre><code>correlation_threshold = .9
+correlation_matrix = data.corr()
+columns_to_remove = set()
+
+for i in range(len(correlation_matrix.columns)):
+    for j in range(i + 1, len(correlation_matrix.columns)):
+        if abs(correlation_matrix.iloc[i, j]) > correlation_threshold:
+            columns_to_remove.add(correlation_matrix.columns[j])
+
+data_filtered = data.drop(columns=columns_to_remove)</code></pre>
+
+        <h2>Model Training</h2>
+        <p>We split the data into training and testing sets and trained a RandomForestRegressor model to predict champion share.</p>
+
+        <pre><code>from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.preprocessing import MinMaxScaler
+
+train = df[df["Season"] < 2024].copy()
+test = df[df["Season"] == 2024].copy()
+
+sc = MinMaxScaler()
+train[features] = sc.fit_transform(train[features])
+test[features] = sc.transform(test[features])
+
+rf = RandomForestRegressor(max_depth=15, min_samples_split=5, n_estimators=100, random_state=15)
+rf.fit(train[features], train["champion share"])
+
+predictions = pd.DataFrame(rf.predict(test[features]), columns=["predicted champion share"], index=test.index)</code></pre>
+
+        <h2>Error Metrics</h2>
+        <p>We evaluated the model using Mean Absolute Error (MAE), Mean Squared Error (MSE), and Root Mean Squared Error (RMSE).</p>
+
+        <pre><code>from sklearn.metrics import mean_absolute_error, mean_squared_error
+
+mae = mean_absolute_error(test["champion share"], predictions)
+mse = mean_squared_error(test["champion share"], predictions)
+rmse = mean_squared_error(test["champion share"], predictions, squared=False)
+
+print(f"MAE: {mae}\nMSE: {mse}\nRMSE: {rmse}")</code></pre>
+        <p>Output:</p>
+        <pre><code>MAE: 0.19411232629353534
+MSE: 0.06579415258025477
+RMSE: 0.2565037087066282</code></pre>
+
+        <h2>Visualization of Error Metrics</h2>
+        <p>Below is a bar plot showing the error metrics for the model.</p>
+
+        <pre><code>import matplotlib.pyplot as plt
+
+# Error Metrics
+mae = 0.19411232629353534
+mse = 0.06579415258025477
+rmse = 0.2565037087066282
+
+# Plotting the Error Metrics
+error_metrics = {'MAE': mae, 'MSE': mse, 'RMSE': rmse}
+fig, ax = plt.subplots()
+ax.bar(error_metrics.keys(), error_metrics.values(), color=['blue', 'green', 'red'])
+ax.set_title('Error Metrics')
+ax.set_ylabel('Error Value')
+plt.show()</code></pre>
+        <img src="error_metrics_plot.png" alt="Error Metrics Plot">
+
+        <h2>Feature Importance</h2>
+        <p>We also analyzed the feature importance to understand which features contribute the most to the predictions.</p>
+
+        <pre><code>f_importance = pd.Series(rf.feature_importances_, index=features).sort_values(ascending=False)
+print(f_importance.head(20))</code></pre>
+        <p>Output:</p>
+        <pre><code>Top_4_Seed_True          0.222001
+team_rating_avg_custom  0.168733
+sum polls made          0.035903
+AdjOE                   0.016737
+PF                      0.015565
+poll_Pre 1              0.015006
+DRtg                    0.014423
+DRB%                    0.013827
+sum conf L10Y cs        0.013329
+BLK%                    0.013224
+Poss                    0.012492
+MPG                     0.011985
+BPG                     0.011935
+FT/FGA                  0.011933
+sum cf tour games       0.011772
+FT%                     0.011762
+FTM                     0.011686
+TRB%                    0.010982
+sum conf L3Y cs         0.010695
+3P%                     0.010668</code></pre>
+
+        <h2>Visualization of Feature Importance</h2>
+        <p>Here is a bar plot of the top 20 most important features.</p>
+
+        <pre><code># Feature Importance
+f_importance = {
+    'Top_4_Seed_True': 0.222001,
+    'team_rating_avg_custom': 0.168733,
+    'sum polls made': 0.035903,
+    'AdjOE': 0.016737,
+    'PF': 0.015565,
+    'poll_Pre 1': 0.015006,
+    'DRtg': 0.014423,
+    'DRB%': 0.013827,
+    'sum conf L10Y cs': 0.013329,
+    'BLK%': 0.013224,
+    'Poss': 0.012492,
+    'MPG': 0.011985,
+    'BPG': 0.011935,
+    'FT/FGA': 0.011933,
+    'sum cf tour games': 0.011772,
+    'FT%': 0.011762,
+    'FTM': 0.011686,
+    'TRB%': 0.010982,
+    'sum conf L3Y cs': 0.010695,
+    '3P%': 0.010668
+}
+
+# Plotting Feature Importance
+fig, ax = plt.subplots(figsize=(10, 8))
+ax.barh(list(f_importance.keys()), list(f_importance.values()), color='skyblue')
+ax.set_xlabel('Feature Importance')
+ax.set_title('Top 20 Feature Importances')
+plt.gca().invert_yaxis()
+plt.show()</code></pre>
+        <img src="feature_importance_plot.png" alt="Feature Importance Plot">
+
+        <h2>Head-to-Head Prediction</h2>
+        <p>We created a head-to-head prediction model to predict the winner between two teams in a matchup, using a RandomForestClassifier with class weights.</p>
+
+        <pre><code>from sklearn.ensemble import RandomForestClassifier
+
+def create_matchup_data(df, features):
+    matchups = []
+    labels = []
+
+    for season in df['Season'].unique():
+        season_data = df[df['Season'] == season]
+        teams = season_data['Team'].unique()
+
+        for i in range(len(teams)):
+            for j in range(i + 1, len(teams)):
+                team1 = season_data[season_data['Team'] == teams[i]]
+                team2 = season_data[season_data['Team'] == teams[j]]
+
+                features_team1 = team1[features].values[0]
+                features_team2 = team2[features].values[0]
+                matchup_features = features_team1 - features_team2
+
+                matchups.append(matchup_features)
+                labels.append(1 if team1['W'].values[0] > team2['W'].values[0] else 0)
+
+    return np.array(matchups), np.array(labels)
+
+matchups, labels = create_matchup_data(train, features)
+rf_clf = RandomForestClassifier(max_depth=15, min_samples_split=5, n_estimators=100, random_state=15, class_weight='balanced')
+rf_clf.fit(matchups, labels)
+
+test_matchups, test_labels = create_matchup_data(test, features)
+test_predictions = rf_clf.predict(test_matchups)</code></pre>
+
+        <h2>Evaluation Metrics for Head-to-Head Predictions</h2>
+        <p>We evaluated the head-to-head prediction model using accuracy, precision, recall, F1 score, and confusion matrix.</p>
+
+        <pre><code>from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
+
+accuracy = accuracy_score(test_labels, test_predictions)
+precision = precision_score(test_labels, test_predictions, zero_division=0)
+recall = recall_score(test_labels, test_predictions)
+f1 = f1_score(test_labels, test_predictions)
+conf_matrix = confusion_matrix(test_labels, test_predictions)
+
+print(f"Accuracy: {accuracy}\nPrecision: {precision}\nRecall: {recall}\nF1 Score: {f1}")
+print("Confusion Matrix:")
+print(conf_matrix)</code></pre>
+        <p>Output:</p>
+        <pre><code>Accuracy: 0.6575943810359964
+Precision: 0.289198606271777
+Recall: 0.125948406676783
+F1 Score: 0.17547568710359407
+Confusion Matrix:
+[[1415  204]
+ [ 576   83]]</code></pre>
+
+        <h2>Visualization of Head-to-Head Prediction Metrics</h2>
+        <p>Here is a bar plot showing the evaluation metrics for the head-to-head prediction model.</p>
+
+        <pre><code># Head-to-Head Prediction Metrics
+metrics = {
+    'Accuracy': 0.6575943810359964,
+    'Precision': 0.289198606271777,
+    'Recall': 0.125948406676783,
+    'F1 Score': 0.17547568710359407
+}
+
+# Plotting the Metrics
+fig, ax = plt.subplots()
+ax.bar(metrics.keys(), metrics.values(), color=['blue', 'green', 'red', 'purple'])
+ax.set_title('Head-to-Head Prediction Metrics with Class Weights')
+ax.set_ylabel('Metric Value')
+plt.show()</code></pre>
+        <img src="prediction_metrics_plot.png" alt="Head-to-Head Prediction Metrics Plot">
+
+        <h2>Visualization of Confusion Matrix</h2>
+        <p>Here is a heatmap showing the confusion matrix for the head-to-head prediction model.</p>
+
+        <pre><code>import seaborn as sns
+
+# Confusion Matrix
+conf_matrix = np.array([[1415, 204],
+                        [576, 83]])
+
+# Plotting the Confusion Matrix
+fig, ax = plt.subplots(figsize=(8, 6))
+sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', ax=ax)
+ax.set_xlabel('Predicted')
+ax.set_ylabel('Actual')
+ax.set_title('Confusion Matrix for Head-to-Head Prediction')
+plt.show()</code></pre>
+        <img src="confusion_matrix_heatmap.png" alt="Confusion Matrix Heatmap">
+
+        <h2>Conclusion</h2>
+        <p>Our model provides a robust framework for predicting NCAA champions and head-to-head matchups. The visualizations and metrics give us valuable insights into the model's performance and highlight areas for potential improvement.</p>
+
+        <p>Stay tuned for more updates and enhancements to our prediction model!</p>
+    </div>
+
+    <footer id="footer">
+        <ul class="icons">
+            <li><a href="https://www.linkedin.com/in/mattreinsch/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a></li>
+            <li><a href="https://github.com/mattreinsch" target="_blank" title="GitHub"><i class="fab fa-github"></i></a></li>
+        </ul>
+        <ul class="menu">
+            <li>&copy; 2024. All rights reserved.</li>
+        </ul>
+    </footer>
+</body>
+</html>

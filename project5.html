@@ -1,0 +1,310 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building and Training a Variational Autoencoder (VAE) on MNIST</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        nav {
+            background-color: #ffffff;
+            color: #333;
+            padding: 10px 20px;
+        }
+
+            nav ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+            }
+
+                nav ul li {
+                    margin-right: 20px;
+                }
+
+                    nav ul li a {
+                        color: #333;
+                        text-decoration: none;
+                        font-size: 18px;
+                    }
+
+                        nav ul li a.bold {
+                            font-weight: bold;
+                            color: #000;
+                        }
+
+                        nav ul li a:hover {
+                            text-decoration: underline;
+                        }
+
+        .content {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+            h1 .icons {
+                margin-left: 15px;
+            }
+
+                h1 .icons a {
+                    color: #333;
+                    margin-right: 10px;
+                    text-decoration: none;
+                    font-size: 24px;
+                }
+
+                    h1 .icons a:hover {
+                        color: #555;
+                    }
+
+        h2 {
+            font-size: 24px;
+            margin-top: 20px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        h3, h4 {
+            font-size: 20px;
+            margin-top: 15px;
+        }
+
+        p {
+            margin: 20px 0;
+        }
+
+        pre, code {
+            background: #f4f4f4;
+            border: 0px solid #ddd;
+            padding: 10px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-x: auto;
+            line-height: 2.0;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px 0;
+        }
+
+        footer#footer {
+            background-color: #000;
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            footer#footer .icons {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+            }
+
+                footer#footer .icons li {
+                    margin: 0 10px;
+                }
+
+                footer#footer .icons a {
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 24px;
+                }
+
+                    footer#footer .icons a:hover {
+                        color: #ddd;
+                    }
+
+            footer#footer .menu {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                font-size: 14px;
+                display: flex;
+                align-items: center;
+            }
+
+                footer#footer .menu li {
+                    margin: 0;
+                }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html" class="bold">Home</a></li>
+            <!-- Add other navigation links here if needed -->
+        </ul>
+    </nav>
+
+    <div class="content">
+        <h1>
+            Building and Training a Variational Autoencoder (VAE) on MNIST
+            <span class="icons">
+                <a href="https://github.com/yourprofile" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/yourprofile/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            </span>
+        </h1>
+        <img src="vae_mnist.png" alt="VAE MNIST">
+
+        <h2>Overview</h2>
+        <p>This script defines and trains a Variational Autoencoder (VAE) using the MNIST dataset of handwritten digits. A VAE is a generative model that learns to encode input data into a latent space and then decode from this latent space to reconstruct the original input. The script consists of several main steps:</p>
+
+        <h2>1. Setup and Imports</h2>
+        <p>The script sets the Keras backend to TensorFlow and imports necessary libraries.</p>
+
+        <h2>2. Sampling Layer</h2>
+        <p>Defines a custom Keras layer, <strong>Sampling</strong>, which samples from a distribution defined by the mean (z_mean) and the log variance (z_log_var). This is essential for the VAE's reparameterization trick, allowing gradients to flow through the stochastic sampling process.</p>
+
+        <pre><code>class Sampling(layers.Layer):
+    def call(self, inputs):
+        z_mean, z_log_var = inputs
+        batch = tf.shape(z_mean)[0]
+        dim = tf.shape(z_mean)[1]
+        epsilon = tf.random.normal(shape=(batch, dim))
+        return z_mean + tf.exp(0.5 * z_log_var) * epsilon
+</code></pre>
+
+        <h2>3. Encoder</h2>
+        <p>The encoder part of the VAE is defined, which compresses the input image into a latent representation. The encoder consists of several convolutional layers followed by a dense layer to produce the mean and log variance of the latent space. The Sampling layer combines the mean and log variance to produce the sampled latent vector z.</p>
+
+        <pre><code>encoder_inputs = keras.Input(shape=(28, 28, 1))
+x = layers.Conv2D(32, 3, activation="relu", strides=2, padding="same")(encoder_inputs)
+x = layers.Conv2D(64, 3, activation="relu", strides=2, padding="same")(x)
+x = layers.Flatten()(x)
+x = layers.Dense(16, activation="relu")(x)
+z_mean = layers.Dense(latent_dim, name="z_mean")(x)
+z_log_var = layers.Dense(latent_dim, name="z_log_var")(x)
+z = Sampling()([z_mean, z_log_var])
+encoder = keras.Model(encoder_inputs, [z_mean, z_log_var, z], name="encoder")
+</code></pre>
+
+        <h2>4. Decoder</h2>
+        <p>The decoder part of the VAE is defined, which reconstructs the image from the latent representation. The decoder consists of dense and convolutional transpose layers, gradually upsampling the latent vector to the original image dimensions.</p>
+
+        <pre><code>latent_inputs = keras.Input(shape=(latent_dim,))
+x = layers.Dense(7 * 7 * 64, activation="relu")(latent_inputs)
+x = layers.Reshape((7, 7, 64))(x)
+x = layers.Conv2DTranspose(64, 3, activation="relu", strides=2, padding="same")(x)
+x = layers.Conv2DTranspose(32, 3, activation="relu", strides=2, padding="same")(x)
+decoder_outputs = layers.Conv2DTranspose(1, 3, activation="sigmoid", padding="same")(x)
+decoder = keras.Model(latent_inputs, decoder_outputs, name="decoder")
+</code></pre>
+
+        <h2>5. VAE Model</h2>
+        <p>A custom Keras model, VAE, is defined to combine the encoder and decoder. The <code>train_step</code> method is overridden to include the VAE's loss calculation, which is the sum of the reconstruction loss and the KL divergence loss.</p>
+        <ul>
+            <li><strong>Reconstruction Loss:</strong> Measures how well the decoded images match the original input images.</li>
+            <li><strong>KL Divergence Loss:</strong> Measures how close the learned latent space distribution is to a standard normal distribution.</li>
+        </ul>
+
+        <pre><code>class VAE(keras.Model):
+    def __init__(self, encoder, decoder, **kwargs):
+        super().__init__(**kwargs)
+        self.encoder = encoder
+        self.decoder = decoder
+        self.total_loss_tracker = keras.metrics.Mean(name="total_loss")
+        self.reconstruction_loss_tracker = keras.metrics.Mean(name="reconstruction_loss")
+        self.kl_loss_tracker = keras.metrics.Mean(name="kl_loss")
+
+    @property
+    def metrics(self):
+        return [
+            self.total_loss_tracker,
+            self.reconstruction_loss_tracker,
+            self.kl_loss_tracker,
+        ]
+
+    def train_step(self, data):
+        with tf.GradientTape() as tape:
+            z_mean, z_log_var, z = self.encoder(data)
+            reconstruction = self.decoder(z)
+            reconstruction_loss = tf.reduce_mean(
+                tf.reduce_sum(
+                    keras.losses.binary_crossentropy(data, reconstruction),
+                    axis=(1, 2)
+                )
+            )
+            kl_loss = -0.5 * tf.reduce_mean(
+                tf.reduce_sum(1 + z_log_var - tf.square(z_mean) - tf.exp(z_log_var), axis=1)
+            )
+            total_loss = reconstruction_loss + kl_loss
+        grads = tape.gradient(total_loss, self.trainable_weights)
+        self.optimizer.apply_gradients(zip(grads, self.trainable_weights))
+        self.total_loss_tracker.update_state(total_loss)
+        self.reconstruction_loss_tracker.update_state(reconstruction_loss)
+        self.kl_loss_tracker.update_state(kl_loss)
+        return {
+            "loss": self.total_loss_tracker.result(),
+            "reconstruction_loss": self.reconstruction_loss_tracker.result(),
+            "kl_loss": self.kl_loss_tracker.result(),
+        }</code></pre>
+
+        <h2>6. Training the VAE</h2>
+        <p>The MNIST dataset is loaded and preprocessed. The VAE model is compiled and trained on the dataset for a specified number of epochs.</p>
+
+        <pre><code>(x_train, _), (x_test, _) = keras.datasets.mnist.load_data()
+mnist_digits = np.concatenate([x_train, x_test], axis=0)
+mnist_digits = np.expand_dims(mnist_digits, -1).astype("float32") / 255
+
+vae = VAE(encoder, decoder)
+vae.compile(optimizer=keras.optimizers.Adam())
+vae.fit(mnist_digits, epochs=30, batch_size=128)
+</code></pre>
+
+        <h2>7. Visualizing the Latent Space</h2>
+        <p>Two functions are defined to visualize the latent space:</p>
+        <ul>
+            <li><strong>plot_latent_space:</strong> Generates a grid of images by decoding points sampled from the latent space. This helps visualize how the latent space represents different digits.</li>
+            <li><strong>plot_label_clusters:</strong> Plots the latent space encoded representations of the input data, colored by their digit labels. This shows how the model clusters similar digits together in the latent space.</li>
+        </ul>
+
+        <pre><code># Plot latent space and label clusters
+plot_latent_space(vae)
+plot_label_clusters(vae, x_train, y_train)
+</code></pre>
+        <img src="minst.png" alt="Latent Space">
+        <img src="clusters.png" alt="Clusters">
+
+        <h2>Conclusion</h2>
+        <p>This script builds, trains, and evaluates a VAE on the MNIST dataset, demonstrating how to encode images into a latent space and decode them back to their original form. It also visualizes the structure of the latent space, showing how different digit classes are organized within it.</p>
+    </div>
+
+    <footer id="footer">
+        <ul class="icons">
+            <li><a href="https://github.com/yourprofile" target="_blank"><i class="fab fa-github"></i></a></li>
+            <li><a href="https://www.linkedin.com/in/yourprofile/" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+        </ul>
+        <ul class="menu">
+            <li>&copy; Matt Reinsch</li>
+        </ul>
+    </footer>
+</body>
+</html>

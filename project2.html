@@ -1,0 +1,276 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit Card Fraud Detection Using Python</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        nav {
+            background-color: #ffffff; /* White background */
+            color: #333;
+            padding: 10px 20px;
+        }
+
+            nav ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+            }
+
+                nav ul li {
+                    margin-right: 20px;
+                }
+
+                    nav ul li a {
+                        color: #333;
+                        text-decoration: none;
+                        font-size: 18px;
+                    }
+
+                        nav ul li a.bold {
+                            font-weight: bold;
+                            color: #000; /* Black color for bold text */
+                        }
+
+                        nav ul li a:hover {
+                            text-decoration: underline;
+                        }
+
+        .content {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+            h1 .icons {
+                margin-left: 15px;
+            }
+
+                h1 .icons a {
+                    color: #333;
+                    margin-right: 10px;
+                    text-decoration: none;
+                    font-size: 24px;
+                }
+
+                    h1 .icons a:hover {
+                        color: #555;
+                    }
+
+        h2 {
+            font-size: 24px;
+            margin-top: 20px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        h3, h4 {
+            font-size: 20px;
+            margin-top: 15px;
+        }
+
+        p {
+            margin: 20px 0;
+        }
+
+        pre, code {
+            background: #f4f4f4;
+            border: 0px solid #ddd;
+            padding: 10px;
+            white-space: pre-wrap; /* Wrap code lines */
+            word-wrap: break-word; /* Break long words */
+            overflow-x: auto; /* Horizontal scrolling for large code blocks */
+            line-height: 2.0; /* Increase line height */
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px 0;
+        }
+
+        /* Footer styles */
+        footer#footer {
+            background-color: #000; /* Black background */
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            footer#footer .icons {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+            }
+
+                footer#footer .icons li {
+                    margin: 0 10px;
+                }
+
+                footer#footer .icons a {
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 24px;
+                }
+
+                    footer#footer .icons a:hover {
+                        color: #ddd;
+                    }
+
+            footer#footer .menu {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                font-size: 14px;
+                display: flex;
+                align-items: center;
+            }
+
+                footer#footer .menu li {
+                    margin: 0;
+                }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html" class="bold">Home</a></li>
+            <!-- Add other navigation links here if needed -->
+        </ul>
+    </nav>
+
+    <div class="content">
+        <h1>
+            Credit Card Fraud Detection Using Python
+            <span class="icons">
+                <a href="https://www.python.org" target="_blank" title="Python Website"><i class="fab fa-python"></i></a>
+                <a href="https://github.com/mattreinsch/Credit-Card-Fraud-Detection" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+            </span>
+        </h1>
+        <img src="CreditCard.jpg" alt="Credit Card Detection">
+
+        <h2>Introduction</h2>
+        <p>In today’s digital age, credit card fraud poses a significant threat to financial security. To combat this, data science and machine learning offer powerful tools for detecting fraudulent transactions. This blog will walk you through a Python-based approach to credit card fraud detection, leveraging a real-world dataset and various data analysis techniques.</p>
+
+        <h2>Step 1: Importing Libraries</h2>
+        <pre><code>import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+sns.set()
+%matplotlib inline</code></pre>
+        <p>These libraries will help us with data manipulation, visualization, and machine learning.</p>
+
+        <h2>Step 2: Loading the Dataset</h2>
+        <pre><code>df = pd.read_csv('creditcard.csv')
+print(df.shape)
+df.head()</code></pre>
+        <p>The dataset has 31 columns: the transaction features (V1 to V28), Time, Amount, and the Class label indicating whether a transaction is fraudulent (1) or not (0).</p>
+
+        <h2>Step 3: Data Exploration</h2>
+        <pre><code>df.info()
+df.describe()</code></pre>
+        <p>Understanding the data's shape, types, and summary statistics is crucial for preprocessing and model selection.</p>
+
+        <h2>Step 4: Class Distribution</h2>
+        <pre><code>class_names = {0: 'Not Fraud', 1: 'Fraud'}
+print(df.Class.value_counts().rename(index=class_names))</code></pre>
+        <p>This will help us understand the imbalance in the dataset, which is common in fraud detection scenarios.</p>
+
+        <h2>Step 5: Data Visualization</h2>
+        <pre><code>fig = plt.figure(figsize=(15, 12))
+for i in range(1, 29):
+    plt.subplot(5, 6, i)
+    plt.plot(df[f'V{i}'])
+plt.subplot(5, 6, 29)
+plt.plot(df['Amount'])
+plt.show()</code></pre>
+        <p>Visualizing features helps in understanding their distribution and identifying potential preprocessing steps.</p>
+
+        <h2>Step 6: Splitting the Data</h2>
+        <pre><code>from sklearn.model_selection import train_test_split
+
+feature_names = df.iloc[:, 1:30].columns
+target = df.iloc[:, 30].name
+data_features = df[feature_names]
+data_target = df[target]
+
+X_train, X_test, y_train, y_test = train_test_split(data_features, data_target, train_size=0.70, test_size=0.30, random_state=1)
+print(f"Length of X_train is: {len(X_train)}")
+print(f"Length of X_test is: {len(X_test)}")
+print(f"Length of y_train is: {len(y_train)}")
+print(f"Length of y_test is: {len(y_test)}")</code></pre>
+        <p>This ensures that our model is trained on one portion of the data and tested on another, unseen portion.</p>
+
+        <h2>Step 7: Model Training</h2>
+        <pre><code>from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import confusion_matrix
+
+model = LogisticRegression()
+model.fit(X_train, y_train.values.ravel())
+
+pred = model.predict(X_test)</code></pre>
+        <p>Logistic regression is a good starting point for binary classification problems like this one.</p>
+
+        <h2>Step 8: Evaluating the Model</h2>
+        <pre><code>class_names = ['not_fraud', 'fraud']
+matrix = confusion_matrix(y_test, pred)
+dataframe = pd.DataFrame(matrix, index=class_names, columns=class_names)
+sns.heatmap(dataframe, annot=True, cbar=None, cmap="Blues", fmt='g')
+plt.title("Confusion Matrix")
+plt.ylabel("True Class")
+plt.xlabel("Predicted Class")
+plt.tight_layout()
+plt.show()</code></pre>
+        <p>The confusion matrix provides insight into the number of correctly and incorrectly classified transactions.</p>
+
+        <h2>Step 9: Performance Metrics</h2>
+        <pre><code>from sklearn.metrics import f1_score, recall_score
+
+f1 = round(f1_score(y_test, pred), 2)
+recall = round(recall_score(y_test, pred), 2)
+print(f"Sensitivity/Recall for Logistic Regression Model: {recall}")
+print(f"F1 Score for Logistic Regression Model: {f1}")</code></pre>
+        <p>F1 score and recall are crucial metrics in fraud detection, focusing on minimizing false negatives.</p>
+
+        <h2>Conclusion</h2>
+        <p>Through this guide, we’ve implemented a basic yet effective credit card fraud detection model using Python. While our logistic regression model provides a good starting point, further improvements can be made by exploring advanced algorithms and techniques. The fight against credit card fraud continues, and with the power of data science, we can stay one step ahead of fraudsters.</p>
+    </div>
+
+    <footer id="footer">
+        <ul class="icons">
+            <li><a href="https://www.linkedin.com/in/mattreinsch/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a></li>
+            <li><a href="https://github.com/mattreinsch" target="_blank" title="GitHub"><i class="fab fa-github"></i></a></li>
+        </ul>
+        <ul class="menu">
+            <li>&copy; Matt Reinsch</li>
+        </ul>
+    </footer>
+</body>
+</html>

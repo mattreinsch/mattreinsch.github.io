@@ -1,0 +1,200 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Matt Reinsch - Gallery</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* Add this CSS to your main CSS file or inside a <style> tag in the head section */
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+            .gallery article {
+                flex: 1 1 30%; /* Adjust the width of the articles */
+                margin: 10px;
+                text-align: center;
+                border: 2px solid #ccc; /* Add a border around the article */
+                padding: 10px;
+            }
+
+            .gallery .image-wrapper {
+                position: relative;
+            }
+
+            .gallery img {
+                width: 100%;
+                height: auto;
+                border: 2px solid #ccc; /* Add a border around the image */
+            }
+
+            .gallery .title {
+                margin-top: 10px;
+                font-size: 1.2em;
+                color: black; /* Make the titles black */
+            }
+
+                .gallery .title a {
+                    text-decoration: none; /* Remove underline from title text */
+                    color: black; /* Ensure title links are black */
+                }
+
+            .gallery .image.fit img {
+                width: 100%;
+                height: 200px; /* Set your desired height */
+                object-fit: cover;
+            }
+
+            .gallery .image.fit {
+                display: block;
+            }
+
+            .gallery .icon {
+                margin-left: 10px;
+            }
+
+        .explore-more {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+            .explore-more a {
+                font-size: 1.2em;
+                color: #000;
+                text-decoration: none;
+                border: 2px solid #ccc;
+                padding: 10px;
+                border-radius: 5px;
+            }
+
+                .explore-more a:hover {
+                    background-color: #f0f0f0;
+                }
+    </style>
+</head>
+<body class="is-preload">
+
+    <!-- Header -->
+    <header id="header">
+        <h1>Matt Reinsch</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html#intro">Home</a></li>
+                <!--<li><a href="index.html#one">What I Do</a></li>
+                <li><a href="index.html#two">Who I Am</a></li>
+                <li><a href="gallery.html#work">Projects</a></li>
+                <li><a href="index.html#contact">Contact</a></li>-->
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Intro -->
+    <!-- Work -->
+    <!-- Gallery -->
+    <div class="gallery">
+        <article class="from-left">
+            <a href="project1.html" class="image fit">
+                <div class="image-wrapper">
+                    <img src="images/thumbs/01.jpg" alt="Project 1" />
+                </div>
+                <p class="title"><strong>Baseball Simulator</strong></p>
+            </a>
+        </article>
+        <article class="from-left">
+            <a href="project2.html" class="image fit">
+                <div class="image-wrapper">
+                    <img src="images/thumbs/02.jpg" alt="Project 2" />
+                </div>
+                <p class="title"><strong>Credit Card Fraud Detection</strong></p>
+            </a>
+        </article>
+        <article class="from-left">
+            <a href="project3.html" class="image fit">
+                <div class="image-wrapper">
+                    <img src="images/thumbs/03.jpg" alt="Project 3" />
+                </div>
+                <p class="title"><strong>Fake News Detection</strong></p>
+            </a>
+        </article>
+        <article class="from-right">
+            <a href="project4.html" class="image fit">
+                <div class="image-wrapper">
+                    <img src="images/thumbs/04.jpg" alt="Project 4" />
+                </div>
+                <p class="title"><strong>NCAA Champions Predictor</strong></p>
+            </a>
+        </article>
+        <article class="from-right">
+            <a href="project5.html" class="image fit">
+                <div class="image-wrapper">
+                    <img src="images/thumbs/05.jpg" alt="Project 5" />
+                </div>
+                <p class="title"><strong>Generative AI: VAE</strong></p>
+            </a>
+        </article>
+        <article class="from-right">
+            <a href="project6.html" class="image fit">
+                <div class="image-wrapper">
+                    <img src="images/thumbs/06.jpg" alt="Project 6" />
+                </div>
+                <p class="title"><strong>Employee Churn Model</strong></p>
+            </a>
+        </article>
+        <article class="from-right">
+            <a href="project7.html" class="image fit">
+                <div class="image-wrapper">
+                    <img src="images/thumbs/07.jpg" alt="Project 7" />
+                </div>
+                <p class="title"><strong>Golf Simulation</strong></p>
+            </a>
+        </article>
+        <article class="from-right">
+            <a href="project8.html" class="image fit">
+                <div class="image-wrapper">
+                    <img src="images/thumbs/08.jpg" alt="Project 8" />
+                </div>
+                <p class="title"><strong>Airline Fares with Plotly</strong></p>
+            </a>
+        </article>
+        <article class="from-right">
+            <a href="project9.html" class="image fit">
+                <div class="image-wrapper">
+                    <img src="images/thumbs/09.jpg" alt="Project 9" />
+                </div>
+                <p class="title"><strong>Visualizing Airline Routes</strong></p>
+            </a>
+        </article>
+    </div>
+    <!--<div class="explore-more">
+        <a href="gallery.html">Explore More</a>
+    </div>-->
+    </div>
+    </section>
+
+    <!-- Contact -->
+    <!-- Footer -->
+    <footer id="footer">
+        <ul class="icons">
+            <li><a href="https://www.linkedin.com/in/matt-reinsch-51118781/" class="icon brands fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+            <li><a href="https://github.com/mattreinsch" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+        </ul>
+        <ul class="menu">
+            <li>&copy; Matt Reinsch</li>
+        </ul>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.scrolly.min.js"></script>
+    <script src="assets/js/jquery.scrollex.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+
+</body>
+</html>

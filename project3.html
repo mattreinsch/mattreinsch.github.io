@@ -1,0 +1,283 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake News Detection Using Python</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        nav {
+            background-color: #ffffff; /* White background */
+            color: #333;
+            padding: 10px 20px;
+        }
+
+            nav ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+            }
+
+                nav ul li {
+                    margin-right: 20px;
+                }
+
+                    nav ul li a {
+                        color: #333;
+                        text-decoration: none;
+                        font-size: 18px;
+                    }
+
+                        nav ul li a.bold {
+                            font-weight: bold;
+                            color: #000; /* Black color for bold text */
+                        }
+
+                        nav ul li a:hover {
+                            text-decoration: underline;
+                        }
+
+        .content {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+            h1 .icons {
+                margin-left: 15px;
+            }
+
+                h1 .icons a {
+                    color: #333;
+                    margin-right: 10px;
+                    text-decoration: none;
+                    font-size: 24px;
+                }
+
+                    h1 .icons a:hover {
+                        color: #555;
+                    }
+
+        h2 {
+            font-size: 24px;
+            margin-top: 20px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        h3, h4 {
+            font-size: 20px;
+            margin-top: 15px;
+        }
+
+        p {
+            margin: 20px 0;
+        }
+
+        pre, code {
+            background: #f4f4f4;
+            border: 0px solid #ddd;
+            padding: 10px;
+            white-space: pre-wrap; /* Wrap code lines */
+            word-wrap: break-word; /* Break long words */
+            overflow-x: auto; /* Horizontal scrolling for large code blocks */
+            line-height: 2.0; /* Increase line height */
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px 0;
+        }
+
+        /* Footer styles */
+        footer#footer {
+            background-color: #000; /* Black background */
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            footer#footer .icons {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+            }
+
+                footer#footer .icons li {
+                    margin: 0 10px;
+                }
+
+                footer#footer .icons a {
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 24px;
+                }
+
+                    footer#footer .icons a:hover {
+                        color: #ddd;
+                    }
+
+            footer#footer .menu {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                font-size: 14px;
+                display: flex;
+                align-items: center;
+            }
+
+                footer#footer .menu li {
+                    margin: 0;
+                }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html" class="bold">Home</a></li>
+            <!-- Add other navigation links here if needed -->
+        </ul>
+    </nav>
+
+    <div class="content">
+        <h1>
+            Fake News Detection Using Python
+            <span class="icons">
+                <a href="https://www.python.org" target="_blank" title="Python Website"><i class="fab fa-python"></i></a>
+                <a href="https://github.com/mattreinsch/Fake-News-Detection" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+            </span>
+        </h1>
+        <img src="Fake_News.jpg" alt="Fake News Detection">
+
+        <h2>Introduction</h2>
+        <p>In an era where information is disseminated rapidly through social media, distinguishing between real and fake news has become increasingly crucial. This analysis demonstrates how Python can be leveraged to detect fake news using machine learning techniques.</p>
+
+        <h2>What is Fake News?</h2>
+        <p>Fake news is a form of yellow journalism that includes hoaxes or misinformation spread through online platforms to further specific agendas, often political. These news items may contain exaggerated or false claims and can be amplified by social media algorithms, trapping users in a filter bubble.</p>
+
+        <h2>Key Techniques and Tools</h2>
+        <h3>1. TfidfVectorizer</h3>
+        <ul>
+            <li><strong>Term Frequency (TF)</strong>: Measures how frequently a term appears in a document. Higher frequency indicates greater relevance to the document.</li>
+            <li><strong>Inverse Document Frequency (IDF)</strong>: Assesses the importance of a term within the entire dataset. Terms that appear frequently across many documents are less significant.</li>
+            <li><strong>TfidfVectorizer</strong>: Converts raw documents into a matrix of TF-IDF features, balancing term frequency and document relevance.</li>
+        </ul>
+
+        <h3>2. PassiveAggressiveClassifier</h3>
+        <p>This online learning algorithm updates its model aggressively upon misclassification while remaining passive for correct classifications. It aims to correct errors with minimal adjustment to the weight vector.</p>
+
+        <h2>Dataset Overview</h2>
+        <p>The dataset used for this analysis, <em>fake_or_real_news.csv</em>, consists of 7796 entries and 4 columns: the identifier, title, text, and label (REAL or FAKE). The dataset size is 29.2MB.</p>
+
+        <h2>Analytical Steps</h2>
+
+        <h3>1. Importing Necessary Libraries</h3>
+        <pre><code>import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import PassiveAggressiveClassifier
+from sklearn.metrics import accuracy_score, confusion_matrix
+
+# Default theme
+plt.style.use('ggplot')
+sns.set(context='notebook', style='darkgrid', font='sans-serif', font_scale=1)</code></pre>
+
+        <h3>2. Reading the Data</h3>
+        <pre><code>df = pd.read_csv('fake_or_real_news.csv')
+print(df.shape)
+df.head()</code></pre>
+        <p>Output:</p>
+        <pre><code>(6335, 4)
+  Unnamed: 0    title    text    label
+0    8476    You Can Smell Hillary’s Fear    Daniel Greenfield, a Shillman Journalism Fello...    FAKE
+1    10294    Watch The Exact Moment Paul Ryan Committed Pol...    Google Pinterest Digg Linkedin Reddit Stumbleu...    FAKE
+2    3608    Kerry to go to Paris in gesture of sympathy    U.S. Secretary of State John F. Kerry said Mon...    REAL
+3    10142    Bernie supporters on Twitter erupt in anger ag...    — Kaydee King (@KaydeeKing) November 9, 2016 T...    FAKE
+4    875    The Battle of New York: Why This Primary Matters    It's primary day in New York and front-runners...    REAL</code></pre>
+
+        <h3>3. Extracting Labels</h3>
+        <pre><code>labels = df.label
+labels.head()</code></pre>
+        <p>Output:</p>
+        <pre><code>0    FAKE
+1    FAKE
+2    REAL
+3    FAKE
+4    REAL
+Name: label, dtype: object</code></pre>
+
+        <h3>4. Visualizing Data Distribution</h3>
+        <pre><code>sns.countplot(x='label', data=df)
+plt.title('The number of news articles categorized as fake/real')
+plt.show()</code></pre>
+
+        <h3>5. Splitting the Dataset</h3>
+        <pre><code>x_train, x_test, y_train, y_test = train_test_split(df['text'], labels, test_size=0.2, random_state=7)</code></pre>
+
+        <h3>6. Initializing TfidfVectorizer</h3>
+        <pre><code>tfidf_vectorizer = TfidfVectorizer(stop_words='english', max_df=0.7)
+tfidf_train = tfidf_vectorizer.fit_transform(x_train) 
+tfidf_test = tfidf_vectorizer.transform(x_test)</code></pre>
+
+        <h3>7. Initializing and Training PassiveAggressiveClassifier</h3>
+        <pre><code>pac = PassiveAggressiveClassifier(max_iter=50)
+pac.fit(tfidf_train, y_train)
+
+# Predicting and Evaluating
+y_pred = pac.predict(tfidf_test)
+score = accuracy_score(y_test, y_pred)
+print(f'Accuracy: {round(score*100,2)}%')</code></pre>
+        <p>Output:</p>
+        <pre><code>Accuracy: 92.82%</code></pre>
+
+        <h3>8. Confusion Matrix</h3>
+        <pre><code>conf_matrix = confusion_matrix(y_test, y_pred, labels=['FAKE', 'REAL'])
+print(conf_matrix)</code></pre>
+        <p>Output:</p>
+        <pre><code>[[589  49]
+ [ 42 587]]</code></pre>
+
+        <h2>Summary</h2>
+        <p>This analysis showcases how to detect fake news using Python. By leveraging TfidfVectorizer and PassiveAggressiveClassifier, we achieved an impressive accuracy of 92.98%. This approach underscores the potential of machine learning in combating misinformation.</p>
+    </div>
+
+    <footer id="footer">
+        <ul class="icons">
+            <li><a href="https://www.linkedin.com/in/mattreinsch/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a></li>
+            <li><a href="https://github.com/mattreinsch" target="_blank" title="GitHub"><i class="fab fa-github"></i></a></li>
+        </ul>
+        <ul class="menu">
+            <li>&copy; 2024. All rights reserved.</li>
+        </ul>
+    </footer>
+</body>
+</html>
