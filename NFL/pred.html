@@ -1,0 +1,478 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predictions</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            display: flex;
+            flex-direction: column; /* Added to ensure the nav and sidebar stack vertically */
+        }
+
+        /* Navigation Styles */
+        nav {
+            background-color: #ffffff;
+            color: #333;
+            padding: 10px 20px;
+        }
+
+            nav ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+            }
+
+                nav ul li {
+                    margin-right: 20px;
+                }
+                nav ul li.right {
+                    margin-left: auto;
+                }
+
+                    nav ul li a {
+                        color: #333;
+                        text-decoration: none;
+                        font-size: 18px;
+                    }
+
+                        nav ul li a.bold {
+                            font-weight: bold;
+                            color: #000;
+                        }
+
+                        nav ul li a:hover {
+                            text-decoration: underline;
+                        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            background-color: #fff;
+            color: #000;
+            padding: 20px;
+            width: 200px;
+            border-right: 1px solid #ddd;
+            flex-shrink: 0; /* Ensures sidebar does not shrink */
+        }
+
+            .sidebar h2 {
+                font-size: 18px;
+                margin-bottom: 15px;
+            }
+
+            .sidebar ul {
+                list-style: none;
+                padding: 0;
+            }
+
+                .sidebar ul li {
+                    margin-bottom: 10px;
+                }
+
+                    .sidebar ul li a {
+                        color: #000;
+                        text-decoration: none;
+                        font-size: 14px;
+                    }
+
+                        .sidebar ul li a:hover {
+                            text-decoration: underline;
+                        }
+
+        /* Content Styles */
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-top: 20px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-size: 16px;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .winner {
+            font-weight: bold;
+            color: green;
+        }
+
+        /* Footer styles */
+        footer#footer {
+            background-color: #000; /* Black background */
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            footer#footer .icons {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+            }
+
+                footer#footer .icons li {
+                    margin: 0 10px;
+                }
+
+                footer#footer .icons a {
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 24px;
+                }
+
+                    footer#footer .icons a:hover {
+                        color: #ddd;
+                    }
+
+            footer#footer .menu {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                font-size: 14px;
+                display: flex;
+                align-items: center;
+            }
+
+                footer#footer .menu li {
+                    margin: 0;
+                }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <ul>
+            <li><a href="intro.html">Intro</a></li>
+            <li><a href="#" class="bold">Predictions</a></li>
+            <li><a href="model_results.html">Model Results</a></li>
+            <li class="right"><a href="https://mattreinsch.github.io/">Home</a></li>
+        </ul>
+    </nav>
+
+    <div style="display: flex;">
+        <div class="sidebar">
+            <h2>Weeks</h2>
+            <ul>
+                <li><a href="#" onclick="showWeek('week1')">Week 1</a></li>
+                <li><a href="#" onclick="showWeek('week2')">Week 2</a></li>
+                <li><a href="#" onclick="showWeek('week3')">Week 3</a></li>
+                <li><a href="#" onclick="showWeek('week4')">Week 4</a></li>
+                <li><a href="#" onclick="showWeek('week5')">Week 5</a></li>
+                <li><a href="#" onclick="showWeek('week6')">Week 6</a></li>
+                <li><a href="#" onclick="showWeek('week7')">Week 7</a></li>
+                <li><a href="#" onclick="showWeek('week8')">Week 8</a></li>
+                <li><a href="#" onclick="showWeek('week9')">Week 9</a></li>
+                <li><a href="#" onclick="showWeek('week10')">Week 10</a></li>
+                <li><a href="#" onclick="showWeek('week11')">Week 11</a></li>
+                <li><a href="#" onclick="showWeek('week12')">Week 12</a></li>
+                <li><a href="#" onclick="showWeek('week13')">Week 13</a></li>
+                <li><a href="#" onclick="showWeek('week14')">Week 14</a></li>
+                <li><a href="#" onclick="showWeek('week15')">Week 15</a></li>
+                <li><a href="#" onclick="showWeek('week16')">Week 16</a></li>
+                <li><a href="#" onclick="showWeek('week17')">Week 17</a></li>
+                <li><a href="#" onclick="showWeek('week18')">Week 18</a></li>
+                <!-- Add Playoffs -->
+            </ul>
+        </div>
+
+        <div class="content">
+            <h1>2024 NFL Game Predictions</h1>
+            <div id="week1">
+                <h2>Week 1 Results</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Matchup</th>
+                            <th>Predicted Result</th>
+                            <th>Predicted Score</th>
+                            <th>Result</th>
+                            <th>Final Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Kansas City Chiefs vs. Baltimore Ravens</td>
+                            <td class="winner">Chiefs win!</td>
+                            <td>28-21</td>
+                            <td></td>
+                            <td>0-0</td>
+
+                        </tr>
+                        <tr>
+                            <td>Philadelphia Eagles vs. Green Bay Packers</td>
+                            <td class="winner">Eagles win!</td>
+                            <td>30-17</td>
+                            <td></td>
+                            <td>0-0</td>
+                        </tr>
+                        <tr>
+                            <td>Chicago Bears vs. Tennessee Titans</td>
+                            <td class="winner">Bears win!</td>
+                            <td>20-14</td>
+                            <td></td>
+                            <td>0-0</td>
+                        </tr>
+                        <tr>
+                            <td>New Orleans Saints vs. Carolina Panthers</td>
+                            <td class="winner">Saints win!</td>
+                            <td>24-10</td>
+                            <td></td>
+                            <td>0-0</td>
+                        </tr>
+                        <tr>
+                            <td>Pittsburgh Steelers vs. Atlanta Falcons</td>
+                            <td class="winner">Steelers win!</td>
+                            <td>27-17</td>
+                            <td></td>
+                            <td>0-0</td>
+                        </tr>
+                        <tr>
+                            <td>Buffalo Bills vs. Arizona Cardinals</td>
+                            <td class="winner">Bills win!</td>
+                            <td>34-13</td>
+                            <td></td>
+                            <td>0-0</td>
+                        </tr>
+                        <tr>
+                            <td>Cincinnati Bengals vs. New England Patriots</td>
+                            <td class="winner">Bengals win!</td>
+                            <td>28-20</td>
+                            <td></td>
+                            <td>0-0</td>
+                        </tr>
+                        <tr>
+                            <td>Indianapolis Colts vs. Houston Texans</td>
+                            <td class="winner">Colts win!</td>
+                            <td>21-17</td>
+                            <td></td>
+                            <td>0-0</td>
+                        </tr>
+                        <tr>
+                            <td>Miami Dolphins vs. Jacksonville Jaguars</td>
+                            <td class="winner">Dolphins win!</td>
+                            <td>31-27</td>
+                            <td></td>
+                            <td>0-0</td>
+                        </tr>
+                        <tr>
+                            <td>Minnesota Vikings vs. New York Giants</td>
+                            <td class="winner">Vikings win!</td>
+                            <td>24-21</td>
+                            <td></td>
+                            <td>0-0</td>
+                        </tr>
+                        <tr>
+                            <td>Los Angeles Chargers vs. Las Vegas Raiders</td>
+                            <td class="winner">Chargers win!</td>
+                            <td>28-17</td>
+                            <td></td>
+                            <td>0-0</td>
+                        </tr>
+                        <tr>
+                            <td>Seattle Seahawks vs. Denver Broncos</td>
+                            <td class="winner">Seahawks win!</td>
+                            <td>24-20</td>
+                            <td></td>
+                            <td>0-0</td>
+                        </tr>
+                        <tr>
+                            <td>Dallas Cowboys vs. Washington Football Team</td>
+                            <td class="winner">Cowboys win!</td>
+                            <td>35-28</td>
+                            <td></td>
+                            <td>0-0</td>
+                        </tr>
+                        <tr>
+                            <td>San Francisco 49ers vs. Los Angeles Rams</td>
+                            <td class="winner">49ers win!</td>
+                            <td>27-23</td>
+                            <td></td>
+                            <td>0-0</td>
+                        </tr>
+                        <tr>
+                            <td>New York Jets vs. Cleveland Browns</td>
+                            <td class="winner">Jets win!</td>
+                            <td>20-14</td>
+                            <td></td>
+                            <td>0-0</td>
+                        </tr>
+                        <tr>
+                            <td>Detroit Lions vs. Tampa Bay Buccaneers</td>
+                            <td class="winner">Lions win!</td>
+                            <td>21-20</td>
+                            <td></td>
+                            <td>0-0</td>
+                        </tr>
+                        <!-- Add more game results as needed -->
+                    </tbody>
+                </table>
+            </div>
+            <div id="week2" style="display: none;">
+                <h2>Week 2 Results</h2>
+                <p>Coming Soon!</p>
+                <!-- Week 2 results table -->
+            </div>
+            <div id="week3" style="display: none;">
+                <h2>Week 3 Results</h2>
+                <p>Coming Soon!</p>
+                <!-- Week 3 results table -->
+            </div>
+            <div id="week4" style="display: none;">
+                <h2>Week 4 Results</h2>
+                <p>Coming Soon!</p>
+                <!-- Week 4 results table -->
+            </div>
+            <div id="week5" style="display: none;">
+                <h2>Week 5 Results</h2>
+                <p>Coming Soon!</p>
+                <!-- Week 5 results table -->
+            </div>
+            <div id="week6" style="display: none;">
+                <h2>Week 6 Results</h2>
+                <p>Coming Soon!</p>
+                <!-- Week 6 results table -->
+            </div>
+            <div id="week7" style="display: none;">
+                <h2>Week 7 Results</h2>
+                <p>Coming Soon!</p>
+                <!-- Week 7 results table -->
+            </div>
+            <div id="week8" style="display: none;">
+                <h2>Week 8 Results</h2>
+                <p>Coming Soon!</p>
+                <!-- Week 8 results table -->
+            </div>
+            <div id="week9" style="display: none;">
+                <h2>Week 9 Results</h2>
+                <p>Coming Soon!</p>
+                <!-- Week 9 results table -->
+            </div>
+            <div id="week10" style="display: none;">
+                <h2>Week 10 Results</h2>
+                <p>Coming Soon!</p>
+                <!-- Week 10 results table -->
+            </div>
+            <div id="week11" style="display: none;">
+                <h2>Week 11 Results</h2>
+                <p>Coming Soon!</p>
+                <!-- Week 11 results table -->
+            </div>
+            <div id="week12" style="display: none;">
+                <h2>Week 12 Results</h2>
+                <p>Coming Soon!</p>
+                <!-- Week 12 results table -->
+            </div>
+            <div id="week13" style="display: none;">
+                <h2>Week 13 Results</h2>
+                <p>Coming Soon!</p>
+                <!-- Week 13 results table -->
+            </div>
+            <div id="week14" style="display: none;">
+                <h2>Week 14 Results</h2>
+                <p>Coming Soon!</p>
+                <!-- Week 14 results table -->
+            </div>
+            <div id="week15" style="display: none;">
+                <h2>Week 15 Results</h2>
+                <p>Coming Soon!</p>
+                <!-- Week 15 results table -->
+            </div>
+            <div id="week16" style="display: none;">
+                <h2>Week 16 Results</h2>
+                <p>Coming Soon!</p>
+                <!-- Week 16 results table -->
+            </div>
+            <div id="week17" style="display: none;">
+                <h2>Week 17 Results</h2>
+                <p>Coming Soon!</p>
+                <!-- Week 17 results table -->
+            </div>
+            <div id="week18" style="display: none;">
+                <h2>Week 18 Results</h2>
+                <p>Coming Soon!</p>
+                <!-- Week 18 results table -->
+            </div>
+            <!-- Add playoffs -->
+        </div>
+    </div>
+
+    <!-- <footer id="footer">
+            <div class="footer-content">
+                <p>&copy; 2024 NFL Simulation League. All rights reserved.</p>
+                <ul class="menu">
+                    <li><a href="#" style="color: #fff; text-decoration: none;">Privacy Policy</a></li>
+                    <li>&nbsp;|&nbsp;</li>
+                    <li><a href="#" style="color: #fff; text-decoration: none;">Terms of Service</a></li>
+                </ul>
+            </div>
+        </footer>-->
+    <footer id="footer">
+        <ul class="icons">
+            <li><a href="https://www.linkedin.com/in/matt-reinsch-51118781/" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+            <li><a href="https://github.com/mattreinsch" target="_blank"><i class="fab fa-github"></i></a></li>
+        </ul>
+
+        <ul class="menu">
+            <li>&copy; Matt Reinsch</li>
+        </ul>
+    </footer>
+
+    <script>
+        function showWeek(week) {
+            // Hide all weeks
+            var weeks = document.querySelectorAll('[id^="week"]');
+            weeks.forEach(function (weekDiv) {
+                weekDiv.style.display = 'none';
+            });
+
+            // Show the selected week
+            document.getElementById(week).style.display = 'block';
+        }
+    </script>
+</body>
+
+</html>

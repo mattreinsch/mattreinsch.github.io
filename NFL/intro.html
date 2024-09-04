@@ -1,0 +1,198 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFL Game Simulator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        nav {
+            background-color: #ffffff;
+            color: #333;
+            padding: 10px 20px;
+        }
+
+            nav ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+            }
+
+                nav ul li {
+                    margin-right: 20px;
+                }
+                nav ul li.right {
+                    margin-left: auto;
+
+                }
+
+                    nav ul li a {
+                        color: #333;
+                        text-decoration: none;
+                        font-size: 18px;
+                    }
+
+                        nav ul li a.bold {
+                            font-weight: bold;
+                            color: #000;
+                        }
+
+                        nav ul li a:hover {
+                            text-decoration: underline;
+                        }
+
+        .content {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-top: 20px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        .plot-container {
+            margin: 20px 0;
+        }
+
+        footer#footer {
+            background-color: #000; /* Black background */
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            footer#footer .icons {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+            }
+
+                footer#footer .icons li {
+                    margin: 0 10px;
+                }
+
+                footer#footer .icons a {
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 24px;
+                }
+
+                    footer#footer .icons a:hover {
+                        color: #ddd;
+                    }
+
+            footer#footer .menu {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                font-size: 14px;
+                display: flex;
+                align-items: center;
+            }
+
+                footer#footer .menu li {
+                    margin: 0;
+                }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <ul>
+            <li><a href="#" class="bold">Intro</a></li>
+            <li><a href="pred.html">Predictions</a></li>
+            <li><a href="model_results.html">Model Results</a></li>
+            <li class="right"><a href="https://mattreinsch.github.io/">Home</a></li>
+        </ul>
+    </nav>
+
+    <div class="content">
+        <h1>NFL Game Simulator Guide</h1> <!-- Introduction Content -->
+        <img src="https://s7d2.scene7.com/is/image/TWCNews/7-1-20_nfl_logo_jpg" alt="NFL Logo" style="width: 100%; height: auto; margin-bottom: 20px;">
+
+        <h2>Introduction</h2>
+        <p>
+            The NFL Game Simulator is an innovative tool that allows users to simulate the outcomes of NFL games based on predefined offensive and defensive ratings for each team. Whether you’re a football enthusiast looking to predict game outcomes, or someone interested in data-driven sports analysis, this simulator offers a dynamic way to explore potential results for the entire NFL season. The simulation is built on the concept of team strengths, factoring in both offensive and defensive capabilities to determine game outcomes.
+        </p>
+
+        <h2>Step-by-Step Guide</h2>
+
+        <h3>1. Team Ratings</h3>
+        <p>
+            Each NFL team is assigned offensive and defensive ratings. These ratings are crucial as they form the foundation of the simulator's calculations. Teams with higher ratings are more likely to score points and defend successfully against their opponents.
+        </p>
+        <ul>
+            <li><strong>Offensive Rating:</strong> Represents a team’s ability to score points.</li>
+            <li><strong>Defensive Rating:</strong> Represents a team’s ability to prevent the opponent from scoring.</li>
+        </ul>
+
+        <h3>2. Week-by-Week Matchups</h3>
+        <p>
+            The simulator processes the NFL schedule week by week, taking into account the matchups between teams. For each game, the offensive and defensive ratings are compared to simulate the game's outcome.
+        </p>
+
+        <h3>3. Simulating Game Results</h3>
+        <p>
+            For each game, the simulator calculates a potential score based on the difference between the offensive rating of the team and the defensive rating of the opponent. The team with the higher calculated score is determined to be the winner.
+        </p>
+        <p><em>Example Simulation:</em> If the Kansas City Chiefs (high offensive rating) are matched against the Baltimore Ravens (high defensive rating), the simulator evaluates how well the Chiefs' offense can overcome the Ravens' defense to produce a final score.</p>
+
+        <h3>4. Updating Standings</h3>
+        <p>
+            After simulating each game, the results are used to update the standings for each division. Wins, losses, and ties are tracked for each team, reflecting their performance over the season.
+        </p>
+        <p><strong>Division Standings:</strong> Each NFL team belongs to a division. The simulator organizes and updates standings after each week's results, providing a clear view of how each team ranks within their division.</p>
+
+        <h3>5. Exporting Results</h3>
+        <p>
+            Once all games for a week are simulated, the results and updated standings are compiled and can be exported in a clean format, such as HTML, which can be easily embedded into a webpage for viewers to see.
+        </p>
+
+        <h2>Conclusion</h2>
+        <p>
+            The NFL Game Simulator is a powerful tool for predicting game outcomes based on statistical ratings. By simulating the entire NFL season, users can get a sense of how teams might perform and which teams are likely to make the playoffs. Whether used for personal enjoyment or deeper analysis, the simulator provides an engaging way to experience the NFL season from a data-driven perspective.
+        </p>
+    </div>
+
+    <footer id="footer">
+        <ul class="icons">
+            <li><a href="https://www.linkedin.com/in/matt-reinsch-51118781/" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+            <li><a href="https://github.com/mattreinsch" target="_blank"><i class="fab fa-github"></i></a></li>
+        </ul>
+
+        <ul class="menu">
+            <li>&copy; Matt Reinsch</li>
+        </ul>
+    </footer>
+</body>
+
+</html>
