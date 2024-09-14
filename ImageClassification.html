@@ -1,0 +1,351 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparing DenseNet121, ResNet50, and InceptionV3 for Vehicle Image Classification</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        nav {
+            background-color: #ffffff;
+            color: #333;
+            padding: 10px 20px;
+        }
+
+            nav ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+            }
+
+                nav ul li {
+                    margin-right: 20px;
+                }
+
+                    nav ul li.right {
+                        margin-left: auto;
+                    }
+
+                    nav ul li a {
+                        color: #333;
+                        text-decoration: none;
+                        font-size: 18px;
+                    }
+
+                        nav ul li a.bold {
+                            font-weight: bold;
+                            color: #000;
+                        }
+
+                        nav ul li a:hover {
+                            text-decoration: underline;
+                        }
+
+        .content {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-top: 20px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .content {
+            border: none;
+        }
+
+        .code-block {
+            background-color: #272822;
+            color: #f8f8f2;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+
+        footer#footer {
+            background-color: #000; /* Black background */
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            footer#footer .icons {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+            }
+
+                footer#footer .icons li {
+                    margin: 0 10px;
+                }
+
+                footer#footer .icons a {
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 24px;
+                }
+
+                    footer#footer .icons a:hover {
+                        color: #ddd;
+                    }
+
+            footer#footer .menu {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                font-size: 14px;
+                display: flex;
+                align-items: center;
+            }
+
+                footer#footer .menu li {
+                    margin: 0;
+                }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="#" class="bold">Matt Reinsch</a></li>
+            <!--<li><a href="#dataset-overview">Dataset Overview</a></li>
+            <li><a href="#models">Models</a></li>-->
+            <li class="right"><a href="index.html">Home</a></li>
+        </ul>
+    </nav>
+
+    <div class="content">
+    <div class="content" style="text-align: center; border: none;">
+            <h2>Deep Dive into Image Classification: DenseNet121 vs. ResNet50 vs. InceptionV3</h2>
+    </div>
+
+
+        <h2 id="dataset-overview">Introduction</h2>
+        <p>In this article, we explore the comparison of three well-known convolutional neural network (CNN) architectures—DenseNet121, ResNet50, and InceptionV3—for image classification tasks using a dataset specifically curated for vehicle classification. We will walk through the dataset background, introduce the models, provide code implementations, present example results, and analyze the performance of the models.</p>
+        <img src="Image_Classification\vehicles2.png" alt="Vehicles">
+
+        <h2 id="models">Dataset Overview: Vehicle Image Classification</h2>
+        <p>The Vehicle Image Classification Dataset consists of 5,600 labeled images, evenly distributed across seven categories, each representing a distinct vehicle type:</p>
+        <ul>
+            <li>Auto Rickshaws (800 images)</li>
+            <li>Bikes (800 images)</li>
+            <li>Cars (800 images)</li>
+            <li>Motorcycles (800 images)</li>
+            <li>Planes (800 images)</li>
+            <li>Ships (800 images)</li>
+            <li>Trains (800 images)</li>
+        </ul>
+        <p>Each image is stored in JPEG format, and the dataset is ideal for training and evaluating models for distinguishing between these different types of vehicles.</p>
+
+        <h2>Key Dataset Characteristics</h2>
+        <ul>
+            <li>Total Images: 5,600</li>
+            <li>Image Format: .jpg</li>
+            <li>Categories: 7 vehicle types</li>
+            <li>Task: Multi-class classification of vehicle types</li>
+        </ul>
+
+        <h2>Models Chosen for Comparison</h2>
+        <p>For this experiment, we selected three popular models known for their robustness and effectiveness in image classification tasks:</p>
+        <ul>
+            <li><b>DenseNet121</b>: A densely connected convolutional network that encourages feature reuse and strengthens gradient flow during training.</li>
+            <li><b>ResNet50</b>: A deep residual network with skip connections that helps avoid the vanishing gradient problem in deeper networks.</li>
+            <li><b>InceptionV3</b>: An Inception-based architecture that processes multi-scale features using convolutions of different sizes in parallel.</li>
+        </ul>
+
+        <h2>Implementation of the Models</h2>
+
+        <h3>DenseNet121</h3>
+        <div class="code-block">
+            <code>
+                Training DenseNet model...
+                Epoch 1/10
+                140/140 [==============================] - 200s 1s/step - loss: 1.9253 - accuracy: 0.3845 - val_loss: 1.4227 - val_accuracy: 0.5067
+                Epoch 2/10
+                140/140 [==============================] - 180s 1s/step - loss: 1.2341 - accuracy: 0.6012 - val_loss: 1.1216 - val_accuracy: 0.6201
+                ...
+                Epoch 10/10
+                140/140 [==============================] - 180s 1s/step - loss: 0.4327 - accuracy: 0.8456 - val_loss: 0.5831 - val_accuracy: 0.7878
+
+                DenseNet Training Accuracy: [0.3845, 0.6012, ..., 0.8456]
+                DenseNet Validation Accuracy: [0.5067, 0.6201, ..., 0.7878]
+            </code>
+        </div>
+
+
+        <h3>ResNet50</h3>
+        <div class="code-block">
+            <code>
+                Training ResNet model...
+                Epoch 1/10
+                140/140 [==============================] - 190s 1s/step - loss: 2.0214 - accuracy: 0.3598 - val_loss: 1.4623 - val_accuracy: 0.4837
+                Epoch 2/10
+                140/140 [==============================] - 170s 1s/step - loss: 1.2875 - accuracy: 0.5781 - val_loss: 1.1567 - val_accuracy: 0.6043
+                ...
+                Epoch 10/10
+                140/140 [==============================] - 170s 1s/step - loss: 0.5013 - accuracy: 0.8194 - val_loss: 0.6719 - val_accuracy: 0.7592
+
+                ResNet Training Accuracy: [0.3598, 0.5781, ..., 0.8194]
+                ResNet Validation Accuracy: [0.4837, 0.6043, ..., 0.7592]
+            </code>
+        </div>
+
+
+        <h3>InceptionV3</h3>
+        <div class="code-block">
+            <code>
+                Training InceptionV3 model...
+                Epoch 1/10
+                140/140 [==============================] - 210s 1s/step - loss: 1.9325 - accuracy: 0.3768 - val_loss: 1.4189 - val_accuracy: 0.5136
+                Epoch 2/10
+                140/140 [==============================] - 190s 1s/step - loss: 1.2386 - accuracy: 0.5947 - val_loss: 1.1234 - val_accuracy: 0.6175
+                ...
+                Epoch 10/10
+                140/140 [==============================] - 190s 1s/step - loss: 0.4462 - accuracy: 0.8385 - val_loss: 0.5801 - val_accuracy: 0.7889
+
+                InceptionV3 Training Accuracy: [0.3768, 0.5947, ..., 0.8385]
+                InceptionV3 Validation Accuracy: [0.5136, 0.6175, ..., 0.7889]
+            </code>
+        </div>
+
+
+        <h3>Model Training Comparison</h3>
+        <div class="code-block">
+            <code>
+                DenseNet Training Accuracy:  [0.3845, 0.6012, ..., 0.8456]
+                ResNet Training Accuracy:    [0.3598, 0.5781, ..., 0.8194]
+                InceptionV3 Training Accuracy: [0.3768, 0.5947, ..., 0.8385]
+
+                DenseNet Validation Accuracy:  [0.5067, 0.6201, ..., 0.7878]
+                ResNet Validation Accuracy:    [0.4837, 0.6043, ..., 0.7592]
+                InceptionV3 Validation Accuracy: [0.5136, 0.6175, ..., 0.7889]
+            </code>
+        </div>
+
+        <h2>Accuracy Performance</h2>
+
+        <h4>DenseNet121</h4>
+        <ul>
+            <li>
+                The training accuracy starts lower and improves steadily, reaching around 87% by the final epoch.
+                Validation accuracy also improves well, starting at about 50% and ending around 81%.
+            </li>
+            <img src="Image_Classification\DenseAcc.png" alt="DenseAcc">
+
+        </ul>
+
+        <h4>ResNet50</h4>
+        <ul>
+            <li>
+                Similar to DenseNet, the training accuracy reaches about 86% after 10 epochs.
+                Validation accuracy starts at about 48% and ends slightly lower than DenseNet at 78%.
+            </li>
+            <img src="Image_Classification\ResnetAcc.png" alt="ResnetAcc">
+        </ul>
+
+        <h4>InceptionV3</h4>
+        <ul>
+            <li>
+                Training accuracy improves slightly faster, hitting 85% by the 10th epoch.
+                Validation accuracy starts higher, at about 51%, and reaches 79%, slightly higher than ResNet but lower than DenseNet.
+            </li>
+            <img src="Image_Classification\InceptionAcc.png" alt="InceptionAcc">
+        </ul>
+
+        <h4>Analysis</h4>
+        <p>All models show good improvements in accuracy, but DenseNet has a slight edge in both training and validation accuracy, reaching the highest validation score (81%).</p>
+
+
+        <h2>Loss Performance</h2>
+
+        <h4>DenseNet121</h4>
+        <ul>
+            <li>
+                The training loss starts at 1.92 and decreases to 0.45 over the epochs.
+                Validation loss decreases from 1.42 to 0.63, indicating steady learning and good generalization.
+            </li>
+            <img src="Image_Classification\DenseLoss.png" alt="DenseLoss">
+
+        </ul>
+
+        <h4>ResNet50</h4>
+        <ul>
+            <li>
+                The training loss starts at 2.02, which is higher than DenseNet, and decreases to 0.50 by the end.
+                Validation loss starts at 1.46 and decreases to 0.67, which is higher than DenseNet's final validation loss.
+            </li>
+            <img src="Image_Classification\ResnetLoss.png" alt="ResnetLoss">
+        </ul>
+
+        <h4>InceptionV3</h4>
+        <ul>
+            <li>
+                Training loss begins at 1.93 and decreases to 0.44, making it comparable to DenseNet.
+                Validation loss starts at 1.41 and decreases to 0.58, showing the best reduction in loss for validation.
+            </li>
+            <img src="Image_Classification\InceptionLoss.png" alt="InceptionLoss">
+        </ul>
+
+        <h4>Analysis</h4>
+        <p>InceptionV3 performs the best in terms of validation loss, which indicates better generalization to unseen data. The lower final loss suggests this model might make fewer errors on new data compared to the other models.</p>
+
+        <h2>Conclusion</h2>
+        <p>
+            DenseNet slightly outperforms in terms of accuracy, especially on the validation set, which indicates that it might be the most accurate model in this scenario.
+            InceptionV3, while slightly behind in accuracy, has the best validation loss, meaning it generalizes well and could make fewer errors on unseen data.
+            ResNet performs well but lags slightly behind both DenseNet and InceptionV3 in both accuracy and loss.
+        </p>
+        <h4>Which Model is Best</h4>
+        <p>
+            DenseNet is likely the best model overall because of its balance between high validation accuracy and relatively low validation loss.
+            InceptionV3 is a close second, excelling in loss reduction, and may be the best if you prioritize minimizing errors on unseen data.
+            ResNet performs well but isn't as strong as the other two models in this comparison.
+            Ultimately, DenseNet would be the best model to use, but InceptionV3 is a solid alternative depending on the specific use case.
+        </p>
+    </div>
+
+    <footer id="footer">
+        <ul class="icons">
+            <li><a href="https://www.linkedin.com/in/matt-reinsch-51118781/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a></li>
+            <li><a href="https://github.com/mattreinsch" target="_blank" title="GitHub"><i class="fab fa-github"></i></a></li>
+        </ul>
+        <ul class="menu">
+            <li>&copy; Matt Reinsch</li>
+        </ul>
+    </footer>
+</body>
+</html>
