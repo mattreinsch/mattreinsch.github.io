@@ -1,256 +1,193 @@
-﻿<!DOCTYPE HTML>
+<!DOCTYPE HTML>
 <html>
-<head>
-    <title>Matt Reinsch - Projects</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <link rel="stylesheet" href="assets/css/main.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-    <style>
-        /* Add this CSS to your main CSS file or inside a <style> tag in the head section */
-        .gallery {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-        }
+	<head>
+		<title>Matt Reinsch</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
 
-            .gallery article {
-                flex: 1 1 30%; /* Adjust the width of the articles */
-                margin: 10px;
-                text-align: center;
-                border: 2px solid #ccc; /* Add a border around the article */
-                padding: 10px;
-            }
+		<!-- Wrapper -->
+			<div id="wrapper">
 
-            .gallery .image-wrapper {
-                position: relative;
-            }
+				<!-- Header -->
+					<header id="header">
+						<div class="logo">
+							<img src="images/MR.jpeg" alt="MR Logo" class="logo-img" />
+						</div>
+						<div class="content">
+							<div class="inner">
+								<h1>Matt Reinsch</h1>
+								<p>Transforming Data into Insights: Expert Data Scientist & AI Enthusiast</p> 
+								<p>Specializing in Predictive Analytics and Visualization</p>
+							</div>
+						</div>
+						<nav>
+							<ul>
+								<li><a href="#intro">About</a></li>
+								<!--<li class="dropdown">
+									<a href="#intro" class="dropbtn">Intro</a>
+									<div class="dropdown-content">
+										<a href="#about">About</a>
+										<a href="#bio">Bio</a>
+									</div>
+								</li>-->
+								<li class="dropdown">
+									<a href="#products" class="dropbtn">Products</a>
+									<div class="dropdown-content">
+										<a href="#aitools">AI Tools</a>
+									</div>
+								</li>
+								<li><a href="#projects">Portfolio</a></li>
+								<li><a href="https://mattreinsch.github.io/DataDrift/">Newsletter</a>
+								<li class="dropdown">
+									<a href="contact" class="dropbtn">Contact</a>
+									<div class="dropdown-content">
+										<a href="mailto:mattsreinsch@gmail.com">Email</a>
+										<a href="https://www.linkedin.com/in/matt-reinsch-51118781/">Linkedin</a>
+										<a href="https://github.com/mattreinsch">Github</a>
+									</div>
+								</li>
+							</ul>
+						</nav>
+					</header>
 
-            .gallery img {
-                width: 100%;
-                height: auto;
-                border: 2px solid #ccc; /* Add a border around the image */
-            }
+				<!-- Main -->
+					<div id="main">
 
-            .gallery .title {
-                margin-top: 10px;
-                font-size: 1.2em;
-                color: black; /* Make the titles black */
-            }
+						<!-- Intro -->
+						<article id="intro">
+							<h2 class="major">About</h2>
+							<span class="image main" style="display: flex; justify-content: center;">
+								<img src="images/lkp.jpg" alt="" style="width: 50%; height: auto;" />
+							</span>
+							<p>I am a seasoned Data Scientist with over a decade of experience in developing predictive models and executing hundreds of analytics and visualization projects. My work has consistently driven business value, demonstrating the transformative power of data science and AI in modern enterprises.</p>
+							<p>My passion for math and engineering has naturally led me to the field of AI and Data Science, which I believe is the future of all enterprises. I am committed to leveraging these technologies to create innovative solutions that drive business growth and efficiency.</p>
+							<p>My career goal is to help businesses leverage AI to drive value. I am excited about the potential to lead teams, drive strategic initiatives, and make a significant impact in the industry by implementing AI-driven solutions.</p>
+							<p>With a strong foundation in predictive modeling, data visualization, and project management, I am well-equipped to take on new challenges and opportunities. I am eager to continue growing in my career, contributing to innovative projects and taking on leadership roles to drive business success.</p>
+						</article>
 
-                .gallery .title a {
-                    text-decoration: none; /* Remove underline from title text */
-                    color: black; /* Ensure title links are black */
-                }
+						<!-- Work -->
+							<article id="work">
+								<h2 class="major">Work</h2>
+								<span class="image main"><img src="images/pic02.jpg" alt="" /></span>
+								<p>Adipiscing magna sed dolor elit. Praesent eleifend dignissim arcu, at eleifend sapien imperdiet ac. Aliquam erat volutpat. Praesent urna nisi, fringila lorem et vehicula lacinia quam. Integer sollicitudin mauris nec lorem luctus ultrices.</p>
+								<p>Nullam et orci eu lorem consequat tincidunt vivamus et sagittis libero. Mauris aliquet magna magna sed nunc rhoncus pharetra. Pellentesque condimentum sem. In efficitur ligula tate urna. Maecenas laoreet massa vel lacinia pellentesque lorem ipsum dolor. Nullam et orci eu lorem consequat tincidunt. Vivamus et sagittis libero. Mauris aliquet magna magna sed nunc rhoncus amet feugiat tempus.</p>
+							</article>
 
-            .gallery .image.fit img {
-                width: 100%;
-                height: 200px; /* Set your desired height */
-                object-fit: cover;
-            }
+						<!-- About -->
+							<article id="about">
+								<h2 class="major">About</h2>
+								<span class="image main"><img src="images/pic03.jpg" alt="" /></span>
+								<p>Lorem ipsum dolor sit amet, consectetur et adipiscing elit. Praesent eleifend dignissim arcu, at eleifend sapien imperdiet ac. Aliquam erat volutpat. Praesent urna nisi, fringila lorem et vehicula lacinia quam. Integer sollicitudin mauris nec lorem luctus ultrices. Aliquam libero et malesuada fames ac ante ipsum primis in faucibus. Cras viverra ligula sit amet ex mollis mattis lorem ipsum dolor sit amet.</p>
+							</article>
 
-            .gallery .image.fit {
-                display: block;
-            }
 
-            .gallery .icon {
-                margin-left: 10px;
-            }
+						<!-- Contact -->
+							<article id="contact">
+								<h2 class="major">Contact</h2>
+								<form method="post" action="#">
+									<div class="fields">
+										<div class="field half">
+											<label for="name">Name</label>
+											<input type="text" name="name" id="name" />
+										</div>
+										<div class="field half">
+											<label for="email">Email</label>
+											<input type="text" name="email" id="email" />
+										</div>
+										<div class="field">
+											<label for="message">Message</label>
+											<textarea name="message" id="message" rows="4"></textarea>
+										</div>
+									</div>
+									<ul class="actions">
+										<li><input type="submit" value="Send Message" class="primary" /></li>
+										<li><input type="reset" value="Reset" /></li>
+									</ul>
+								</form>
+								<ul class="icons">
+									<li><a href="#" class="fa-solid fa-envelope"><span class="label">Email</span></a></li>
+									<!--<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+									<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>-->
+									<li><a href="#" class="icon brands fa-linkedin"><span class="label">Linkedin</span></a></li>
+									<li><a href="#" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+								</ul>
+							</article>
 
-        .explore-more {
-            text-align: center;
-            margin-top: 20px;
-        }
+							<!-- Projects -->
 
-            .explore-more a {
-                font-size: 1.2em;
-                color: #000;
-                text-decoration: none;
-                border: 2px solid #ccc;
-                padding: 10px;
-                border-radius: 5px;
-            }
+							<article id="projects">
+								<h2 class="major">Portfolio</h2>
+								<p>Here are some of my featured projects in AI, Data Science, and Visualization.</p>
+							
+								<div class="project-grid">
+									<div class="project">
+										<img src="images/cpu_vision_truck.jpg" alt="Computer-Vision">
+										<h3>Computer Vision</h3>
+										<p>Utilizing AI for Advanced Computer Vision Techniques.</p>
+										<a href="https://mattreinsch.github.io/Computer-Vision/" class="button primary">View Project</a>
+									</div>
+							
+									<div class="project">
+										<img src="images/NFLSim.jpg" alt="NFL Simulator">
+										<h3>NFL Simulator</h3>
+										<p>Using data-driven analysis to predict NFL game outcomes accurately.</p>
+										<a href="https://mattreinsch.github.io/NFL/intro.html" class="button">View Project</a>
+									</div>
+							
+									<div class="project">
+										<img src="images/vehicles2.jpg" alt="Image Classification" />
+										<h3>Deep Dive into Image Classification</h3>
+										<p>Comparing DenseNet121, ResNet50, and InceptionV3 for vehicle image classification.</p>
+										<a href="https://mattreinsch.github.io/ImageClassification.html" class="button">View Project</a>
+									</div>
+								</div>
+							</article>
 
-                .explore-more a:hover {
-                    background-color: #f0f0f0;
-                }
-    </style>
-</head>
-<body class="is-preload">
 
-    <!-- Header -->
-    <header id="header">
-        <h1>Matt Reinsch</h1>
-        <nav>
-            <ul>
-                <li><a href="#intro">Intro</a></li>
-                <li><a href="#one">What I Do</a></li>
-                <li><a href="#two">Who I Am</a></li>
-                <li><a href="#work">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+							</article>
 
-    <!-- Intro -->
-    <section id="intro" class="main style1 dark fullscreen">
-        <div class="content">
-            <header>
-                <h2>Matt Reinsch</h2>
-            </header>
-            <ul class="icons">
-                <li><a href="https://www.linkedin.com/in/matt-reinsch-51118781/" class="icon brands fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
-                <li><a href="https://github.com/mattreinsch" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
-            </ul>
-            <footer>
-                <a href="#one" class="button style2 down">More</a>
-            </footer>
-        </div>
-    </section>
+					</div>
 
-    <!-- One -->
-    <section id="one" class="main style2 right dark fullscreen">
-        <div class="content box style2">
-            <header>
-                <h2>What I Do</h2>
-            </header>
-            <p>As a Data Scientist, I leverage my extensive skills in statistical analysis and machine learning to develop predictive models that drive business insights. My proficiency in Python, R, and SQL allows me to manipulate and clean large datasets, ensuring data integrity and accuracy. Utilizing big data technologies like Hadoop and Spark, I handle complex data workflows and analyze trends to inform strategic decisions. I create compelling visualizations with tools like Tableau and Matplotlib to communicate findings to stakeholders effectively. With a deep understanding of industry-specific challenges, I contextualize my analyses to align with business objectives. My critical thinking and problem-solving abilities enable me to tackle complex data problems, while my strong communication and collaboration skills ensure seamless integration with cross-functional teams. As a leader, I guide junior data scientists and manage projects from inception to delivery, adapting quickly to new technologies and methodologies to stay ahead in the rapidly evolving field of data science.</p>
-        </div>
-        <a href="#two" class="button style2 down anchored">Next</a>
-    </section>
+					<!-- Subscribe 
+					<article id="subscribe">
+						<h2 class="major">Subscribe</h2>
+						<form method="post" action="#">
+							<div class="fields">
+								<div class="field half">
+									<label for="subscribe-name">Name</label>
+									<input type="text" name="subscribe-name" id="subscribe-name" />
+								</div>
+								<div class="field half">
+									<label for="subscribe-email">Email</label>
+									<input type="email" name="subscribe-email" id="subscribe-email" />
+								</div>
+							</div>
+							<ul class="actions">
+								<li><input type="submit" value="Subscribe" class="primary" /></li>
+							</ul>
+						</form>
+					</article>-->
 
-    <!-- Two -->
-    <section id="two" class="main style2 left dark fullscreen">
-        <div class="content box style2">
-            <header>
-                <h2>Who I Am</h2>
-            </header>
-            <p>As a Data Science Professional, I combine my passion for technology and analytical skills to derive meaningful insights from complex data. Outside of work, I'm an avid sports enthusiast, constantly exploring new ways data can enhance athletic performance and fan experiences. My weekends often involve DIY projects, where I enjoy the challenge of building and creating things from scratch. I love attending concerts and immersing myself in the vibrant energy of live music. A dedicated gamer, I relish the strategic thinking and problem-solving aspects of gaming. I’m also a movie buff, always on the lookout for the latest films to enjoy, and a food lover who delights in trying new cuisines and culinary experiences. Balancing my professional expertise with these diverse interests keeps me curious, innovative, and energized.</p>
-        </div>
-        <a href="#work" class="button style2 down anchored">Next</a>
-    </section>
+				<!-- Footer -->
+					<footer id="footer">
+						<p class="copyright">&copy;2025 Matt Reinsch.</p>
+					</footer>
 
-    <!-- Work -->
-    <section id="work" class="main style3 primary">
-        <div class="content">
-            <header>
-                <h2>Projects</h2>
-                <p>In my recent projects, I utilized a diverse array of data science techniques to solve complex problems and deliver actionable insights. </p>
-            </header>
-            <!-- Gallery -->
-            <div class="gallery">
-                <article class="from-left">
-                    <a href="https://mattreinsch.github.io/Computer-Vision/" class="image fit">
-                        <div class="image-wrapper">
-                            <img src="images/cpu_vision_truck.jpg" alt="Computer-Vision" />
-                        </div>
-                        <p class="title"><strong>Computer-Vision</strong></p>
-                    </a>
-                </article>
-                <article class="from-left">
-                    <a href="https://mattreinsch.github.io/DataDrift/" class="image fit">
-                        <div class="image-wrapper">
-                            <img src="images/ddlogo2.png" alt="Data Drift" />
-                        </div>
-                        <p class="title"><strong>AI and Data Science Blog</strong></p>
-                    </a>
-                </article>
-                <article class="from-left">
-                    <a href="ImageClassification.html" class="image fit">
-                        <div class="image-wrapper">
-                            <img src="Image_Classification/vehicles2.jpg" alt="Image Classification" />
-                        </div>
-                        <p class="title"><strong>Deep Dive into Image Classification</strong></p>
-                    </a>
-                </article>
-                <article class="from-left">
-                    <a href="NFL/intro.html" class="image fit">
-                        <div class="image-wrapper">
-                            <img src="https://s7d2.scene7.com/is/image/TWCNews/7-1-20_nfl_logo_jpg" alt="NFL Logo" />
-                        </div>
-                        <p class="title"><strong>NFL Simulator<!--<i class="fab fa-python"></i>--></strong></p>
-                    </a>
-                </article>
-                <article class="from-left">
-                    <a href="project2.html" class="image fit">
-                        <div class="image-wrapper">
-                            <img src="images/thumbs/02.jpg" alt="Project 2" />
-                        </div>
-                        <p class="title"><strong>Credit Card Fraud Detection</strong></p>
-                    </a>
-                </article>
-                <article class="from-right">
-                    <a href="project3.html" class="image fit">
-                        <div class="image-wrapper">
-                            <img src="images/thumbs/03.jpg" alt="Project 3" />
-                        </div>
-                        <p class="title"><strong>Fake News Detection</strong></p>
-                    </a>
-                </article>
-                <!--<article class="from-right">
-                    <a href="project4.html" class="image fit">
-                        <div class="image-wrapper">
-                            <img src="images/thumbs/04.jpg" alt="Project 4" />
-                        </div>
-                        <p class="title"><strong>NCAA Champions Predictor</strong></p>
-                    </a>
-                </article>-->
-                <!--<article class="from-right">
-                    <a href="project1.html" class="image fit">
-                        <div class="image-wrapper">
-                            <img src="images/thumbs/01.jpg" alt="Project 1" />
-                        </div>
-                        <p class="title"><strong>Baseball Simulator</strong></p>
-                    </a>
-                </article>-->
-              
-            </div>
-            <div class="explore-more">
-                <a href="gallery.html">Explore More</a>
-            </div>
-        </div>
-    </section>
+			</div>
 
-    <!-- Contact -->
-    <section id="contact" class="main style3 secondary">
-        <div class="content">
-            <header>
-                <h2>Contact</h2>
-            </header>
-            <div class="box">
-                <form method="post" action="mailto:mattsreinsch@gmail.com">
-                    <div class="fields">
-                        <div class="field half"><input type="text" name="name" placeholder="Name" /></div>
-                        <div class="field half"><input type="email" name="email" placeholder="Email" /></div>
-                        <div class="field"><textarea name="message" placeholder="Message" rows="6"></textarea></div>
-                    </div>
-                    <ul class="actions special">
-                        <li><input type="submit" value="Send Message" /></li>
-                    </ul>
-                </form>
-            </div>
-        </div>
-    </section>
+		<!-- BG -->
+			<div id="bg"></div>
 
-    <!-- Footer -->
-    <footer id="footer">
-        <ul class="icons">
-            <li><a href="https://www.linkedin.com/in/matt-reinsch-51118781/" class="icon brands fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
-            <li><a href="https://github.com/mattreinsch" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
-        </ul>
-        <ul class="menu">
-            <li>&copy; Matt Reinsch</li>
-        </ul>
-    </footer>
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
 
-    <!-- Scripts -->
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/jquery.scrolly.min.js"></script>
-    <script src="assets/js/jquery.scrollex.min.js"></script>
-    <script src="assets/js/browser.min.js"></script>
-    <script src="assets/js/breakpoints.min.js"></script>
-    <script src="assets/js/util.js"></script>
-    <script src="assets/js/main.js"></script>
-
-</body>
+	</body>
 </html>
