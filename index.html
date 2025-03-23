@@ -6,6 +6,35 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+
+		<!-- ChatBuildAI Widget Begin -->
+    		<script>
+      (function(d, w) {
+        var chatbotId = "cb_770ca027b8";
+        var position = "bottom-right";
+        var baseUrl = "https://website-chat-ai-mattsreinsch.replit.app";
+        
+        var s = d.createElement("script");
+        s.src = baseUrl + "/widget.js";
+        s.setAttribute("data-chatbot-id", chatbotId);
+        s.setAttribute("data-position", position);
+        s.setAttribute("crossorigin", "anonymous");
+        s.setAttribute("type", "text/javascript");
+        s.async = true;
+        
+        s.onload = function() {
+          console.log("ChatBuildAI widget loaded successfully!");
+        };
+        
+        s.onerror = function(e) {
+          console.error("Error loading ChatBuildAI widget:", e);
+        };
+        
+        d.getElementsByTagName("head")[0].appendChild(s);
+      })(document, window);
+    </script>
+    <!-- ChatBuildAI Widget End -->
+
 	</head>
 	<body class="is-preload">
 
